@@ -191,9 +191,16 @@ rm Sources/main.swift
 
 ```swift
 import SwiftUI
+import AppKit
 
 @main
 struct {Name}App: App {
+    init() {
+        // Required for swift run to show GUI window
+        NSApplication.shared.setActivationPolicy(.regular)
+        NSApplication.shared.activate(ignoringOtherApps: true)
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
