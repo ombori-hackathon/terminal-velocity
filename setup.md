@@ -64,6 +64,9 @@ if ! gh auth status &> /dev/null; then
     gh auth login
 fi
 
+# Configure git to use gh credentials (prevents 403 errors on org repos)
+gh auth setup-git
+
 # Verify access to ombori-hackathon org
 gh api orgs/ombori-hackathon --silent && echo "✅ Access to ombori-hackathon org confirmed" || echo "❌ No access to ombori-hackathon org - contact organizer"
 ```
