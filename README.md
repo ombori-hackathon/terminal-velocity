@@ -31,9 +31,10 @@ Each team creates their own:
 
 ### 1. Create a folder for your project (this becomes your workspace)
 
+Open the folder in terminal. (You can drag the folder into the Terminal icon in the dock) or
+
 ```bash
-mkdir ~/Desktop/my-team-name
-cd ~/Desktop/my-team-name
+cd ~/path-to/my-team-name
 ```
 
 ### 2. Open Claude Code
