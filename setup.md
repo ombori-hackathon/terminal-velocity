@@ -1078,4 +1078,4 @@ Your hackathon workspace is ready:
 
 **Next: Start building your hackathon project!**
 
-Use `/architect` to design your first feature.
+Use `/feature` to build your first feature!
