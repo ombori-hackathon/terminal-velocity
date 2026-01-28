@@ -939,17 +939,30 @@ Implement minimum code to make tests pass:
 
 Clean up code while keeping tests green.
 
-### Step 7: Commit
+### Step 7: Create PR
 
-Ask user: "All tests pass. Ready to commit?"
+Ask user: "All tests pass. Ready to create a PR?"
 
-If yes, commit to both repos:
+If yes, use `gh` CLI to create PRs (never use GitHub web interface):
+
 ```bash
-cd apps/macos-client && git add . && git commit -m "feat: <description>" && git push
-cd ../../services/api && git add . && git commit -m "feat: <description>" && git push
+# Create feature branch, commit, and open PR for each repo
+cd apps/macos-client
+git checkout -b feature/<feature-name>
+git add .
+git commit -m "feat: <description>"
+git push -u origin feature/<feature-name>
+gh pr create --title "feat: <description>" --body "Implements <feature>"
+
+cd ../../services/api
+git checkout -b feature/<feature-name>
+git add .
+git commit -m "feat: <description>"
+git push -u origin feature/<feature-name>
+gh pr create --title "feat: <description>" --body "Implements <feature>"
 ```
 
-Update spec with completion status.
+Update spec with PR links and completion status.
 ```
 
 ---
@@ -1076,12 +1089,19 @@ Available in `.claude/agents/`:
 4. **Review** - Use reviewer agent
 5. **Commit** - Submodules first, then workspace
 
-### Committing Changes
-Always commit submodules FIRST, then workspace:
+### Git Workflow (use `gh` CLI, not GitHub web)
+Always use feature branches and `gh pr create`:
 ```bash
-cd apps/macos-client && git add . && git commit -m "..." && git push
-cd services/api && git add . && git commit -m "..." && git push
-cd ../.. && git add . && git commit -m "Update submodules" && git push
+# In each submodule
+git checkout -b feature/<name>
+git add . && git commit -m "feat: ..."
+git push -u origin feature/<name>
+gh pr create --title "feat: ..." --body "Description"
+
+# After PRs merged, update workspace
+cd ../..
+git add . && git commit -m "Update submodules"
+git push
 ```
 
 ## API Reference
