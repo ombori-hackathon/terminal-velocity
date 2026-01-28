@@ -147,7 +147,7 @@ mkdir -p services/api
 
 ---
 
-## STEP 4: Create Swift CLI Client
+## STEP 4: Create SwiftUI App
 
 ### 4.1 Initialize Swift Package
 
@@ -165,24 +165,170 @@ Note: `{Name}` is the project name in PascalCase (e.g., `team-awesome` → `Team
 import PackageDescription
 
 let package = Package(
-    name: "HackathonClient",
+    name: "{Name}Client",
     platforms: [.macOS(.v14)],
     targets: [
         .executableTarget(
-            name: "HackathonClient",
+            name: "{Name}Client",
             path: "Sources"
         ),
     ]
 )
 ```
 
-### 4.3 Replace Sources/main.swift
+### 4.3 Create SwiftUI App Structure
+
+Delete the generated main.swift and create these files:
+
+```bash
+rm Sources/main.swift
+```
+
+#### Sources/{Name}App.swift
+
+```swift
+import SwiftUI
+
+@main
+struct {Name}App: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+        .windowStyle(.hiddenTitleBar)
+        .defaultSize(width: 800, height: 600)
+    }
+}
+```
+
+#### Sources/ContentView.swift
+
+```swift
+import SwiftUI
+
+struct ContentView: View {
+    @State private var items: [Item] = []
+    @State private var isLoading = false
+    @State private var apiStatus = "Checking..."
+    @State private var errorMessage: String?
+
+    private let baseURL = "http://localhost:8000"
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            HStack {
+                Text("{name}")
+                    .font(.title.bold())
+                Spacer()
+                Circle()
+                    .fill(apiStatus == "healthy" ? .green : .red)
+                    .frame(width: 12, height: 12)
+                Text(apiStatus)
+                    .foregroundStyle(.secondary)
+            }
+            .padding()
+            .background(.bar)
+
+            Divider()
+
+            // Content
+            if let error = errorMessage {
+                VStack(spacing: 12) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.largeTitle)
+                        .foregroundStyle(.orange)
+                    Text(error)
+                        .foregroundStyle(.secondary)
+                    Text("Start API: cd services/api && uv run fastapi dev")
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if isLoading {
+                ProgressView("Loading items...")
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ItemsTable(items: items)
+            }
+        }
+        .task {
+            await loadData()
+        }
+    }
+
+    private func loadData() async {
+        isLoading = true
+        errorMessage = nil
+
+        // Check health
+        do {
+            let url = URL(string: "\(baseURL)/health")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let health = try JSONDecoder().decode(HealthResponse.self, from: data)
+            apiStatus = health.status
+        } catch {
+            apiStatus = "offline"
+            errorMessage = "API not running"
+            isLoading = false
+            return
+        }
+
+        // Fetch items
+        do {
+            let url = URL(string: "\(baseURL)/items")!
+            let (data, _) = try await URLSession.shared.data(from: url)
+            items = try JSONDecoder().decode([Item].self, from: data)
+        } catch {
+            errorMessage = "Failed to load items"
+        }
+
+        isLoading = false
+    }
+}
+
+#Preview {
+    ContentView()
+}
+```
+
+#### Sources/ItemsTable.swift
+
+```swift
+import SwiftUI
+
+struct ItemsTable: View {
+    let items: [Item]
+
+    var body: some View {
+        Table(items) {
+            TableColumn("ID") { item in
+                Text("\(item.id)")
+                    .monospacedDigit()
+            }
+            .width(50)
+
+            TableColumn("Name", value: \.name)
+                .width(min: 100, ideal: 150)
+
+            TableColumn("Description", value: \.description)
+
+            TableColumn("Price") { item in
+                Text(item.price, format: .currency(code: "USD"))
+                    .monospacedDigit()
+            }
+            .width(80)
+        }
+    }
+}
+```
+
+#### Sources/Models.swift
 
 ```swift
 import Foundation
 
-// --- Data Models (must match API response) ---
-struct Item: Codable {
+struct Item: Codable, Identifiable {
     let id: Int
     let name: String
     let description: String
@@ -191,66 +337,6 @@ struct Item: Codable {
 
 struct HealthResponse: Codable {
     let status: String
-}
-
-@main
-struct {Name}Client {
-    static let baseURL = "http://localhost:8000"
-
-    static func main() async throws {
-        print("🚀 {name} Terminal Velocity Client Starting...\n")
-
-        // 1. Check API health
-        do {
-            let health = try await fetchHealth()
-            print("✅ API Status: \(health.status)")
-        } catch {
-            print("❌ API not running!")
-            print("   Start it with: cd services/api && uv run fastapi dev")
-            print("   Error: \(error.localizedDescription)")
-            return
-        }
-
-        // 2. Fetch and display items from API
-        print("\n📦 Fetching items from API...\n")
-        do {
-            let items = try await fetchItems()
-            printItemsTable(items)
-        } catch {
-            print("❌ Failed to fetch items: \(error.localizedDescription)")
-        }
-
-        print("\n✨ Ready for Terminal Velocity!")
-    }
-
-    // --- API Calls ---
-
-    static func fetchHealth() async throws -> HealthResponse {
-        let url = URL(string: "\(baseURL)/health")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(HealthResponse.self, from: data)
-    }
-
-    static func fetchItems() async throws -> [Item] {
-        let url = URL(string: "\(baseURL)/items")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode([Item].self, from: data)
-    }
-
-    // --- Display ---
-
-    static func printItemsTable(_ items: [Item]) {
-        print("┌────┬────────────┬────────────────────────────────┬─────────┐")
-        print("│ ID │ Name       │ Description                    │ Price   │")
-        print("├────┼────────────┼────────────────────────────────┼─────────┤")
-        for item in items {
-            let name = item.name.padding(toLength: 10, withPad: " ", startingAt: 0)
-            let desc = item.description.padding(toLength: 30, withPad: " ", startingAt: 0)
-            print("│ \(item.id)  │ \(name) │ \(desc) │ $\(String(format: "%.2f", item.price).padding(toLength: 6, withPad: " ", startingAt: 0)) │")
-        }
-        print("└────┴────────────┴────────────────────────────────┴─────────┘")
-        print("\n Total: \(items.count) items")
-    }
 }
 ```
 
@@ -267,17 +353,20 @@ xcuserdata/
 ### 4.5 Create CLAUDE.md for Swift submodule
 
 ```markdown
-# HackathonClient - Swift CLI
+# {Name}Client - SwiftUI App
 
-macOS command-line client that communicates with the FastAPI backend.
+macOS desktop app that communicates with the FastAPI backend.
 
 ## Commands
 - Build: `swift build`
-- Run: `swift run {Name}Client`
+- Run: `swift run {Name}Client` (opens GUI window)
 - Test: `swift test`
 
 ## Architecture
-- Entry point: Sources/main.swift
+- SwiftUI app with native macOS window
+- Entry point: Sources/{Name}App.swift
+- Main view: Sources/ContentView.swift
+- Data models: Sources/Models.swift
 - Uses async/await with URLSession
 - Targets macOS 14+
 
@@ -285,10 +374,10 @@ macOS command-line client that communicates with the FastAPI backend.
 - Backend runs at http://localhost:8000
 - Health check: GET /health
 - Sample data: GET /items (returns list of items)
-- Item detail: GET /items/{id}
 
 ## Adding Features
-1. Add new async functions for API calls
+1. Create new SwiftUI views in Sources/
+2. Add new async functions for API calls in views or a dedicated APIClient
 2. Use `URLSession.shared.data(from:)` for GET requests
 3. Use `URLSession.shared.data(for:)` for POST/PUT with URLRequest
 ```
@@ -550,7 +639,7 @@ gh repo create ombori-hackathon/{name}-api --public --description "{name} - Fast
 cd apps/macos-client
 git init
 git add .
-git commit -m "Initial Swift CLI client setup"
+git commit -m "Initial SwiftUI app setup"
 git branch -M main
 git remote add origin https://github.com/ombori-hackathon/{name}-macos.git
 git push -u origin main
@@ -681,11 +770,13 @@ model: sonnet
 
 # Swift Coder Agent
 
-Swift developer for the macOS CLI client.
+Swift developer for the macOS SwiftUI app.
 
 ## Your Codebase
 - Location: apps/macos-client/
-- Entry point: Sources/main.swift
+- Entry point: Sources/{Name}App.swift
+- Main view: Sources/ContentView.swift
+- Models: Sources/Models.swift
 - Build: swift build
 - Run: swift run {Name}Client
 
@@ -1065,7 +1156,7 @@ cd apps/macos-client && swift run {Name}Client
 ```
 
 ## Structure
-- `apps/macos-client/` - Swift CLI client (submodule)
+- `apps/macos-client/` - SwiftUI desktop app (submodule)
 - `services/api/` - FastAPI Python backend (submodule)
 - `specs/` - Feature specifications (plan-mode output)
 - `docker-compose.yml` - PostgreSQL database
@@ -1172,7 +1263,7 @@ pkill -f "fastapi dev"
 
 Your hackathon workspace is ready:
 - ✅ 3 GitHub repos created and linked
-- ✅ Swift CLI client builds and runs
+- ✅ SwiftUI app builds and runs
 - ✅ FastAPI backend runs with health endpoint
 - ✅ PostgreSQL database via Docker
 - ✅ Claude Code agents configured
