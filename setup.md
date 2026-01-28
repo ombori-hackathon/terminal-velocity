@@ -178,38 +178,75 @@ let package = Package(
 ```swift
 import Foundation
 
+// --- Data Models (must match API response) ---
+struct Item: Codable {
+    let id: Int
+    let name: String
+    let description: String
+    let price: Double
+}
+
+struct HealthResponse: Codable {
+    let status: String
+}
+
 @main
 struct {Name}Client {
+    static let baseURL = "http://localhost:8000"
+
     static func main() async throws {
-        print("🚀 {name} Terminal Velocity Client Starting...")
+        print("🚀 {name} Terminal Velocity Client Starting...\n")
 
-        // API base URL (FastAPI backend)
-        let baseURL = "http://localhost:8000"
-
-        // Test API connection
+        // 1. Check API health
         do {
-            let health = try await fetchHealth(baseURL: baseURL)
-            print("✅ API Status: \(health)")
+            let health = try await fetchHealth()
+            print("✅ API Status: \(health.status)")
         } catch {
-            print("⚠️  API not running. Start with: cd services/api && uv run fastapi dev")
+            print("❌ API not running!")
+            print("   Start it with: cd services/api && uv run fastapi dev")
             print("   Error: \(error.localizedDescription)")
+            return
         }
 
-        print("\n📋 Available commands:")
-        print("   swift run {Name}Client")
-        print("\nReady for Terminal Velocity! 🚀")
+        // 2. Fetch and display items from API
+        print("\n📦 Fetching items from API...\n")
+        do {
+            let items = try await fetchItems()
+            printItemsTable(items)
+        } catch {
+            print("❌ Failed to fetch items: \(error.localizedDescription)")
+        }
+
+        print("\n✨ Ready for Terminal Velocity!")
     }
 
-    static func fetchHealth(baseURL: String) async throws -> String {
+    // --- API Calls ---
+
+    static func fetchHealth() async throws -> HealthResponse {
         let url = URL(string: "\(baseURL)/health")!
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode(HealthResponse.self, from: data)
+    }
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
+    static func fetchItems() async throws -> [Item] {
+        let url = URL(string: "\(baseURL)/items")!
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return try JSONDecoder().decode([Item].self, from: data)
+    }
+
+    // --- Display ---
+
+    static func printItemsTable(_ items: [Item]) {
+        print("┌────┬────────────┬────────────────────────────────┬─────────┐")
+        print("│ ID │ Name       │ Description                    │ Price   │")
+        print("├────┼────────────┼────────────────────────────────┼─────────┤")
+        for item in items {
+            let name = item.name.padding(toLength: 10, withPad: " ", startingAt: 0)
+            let desc = item.description.padding(toLength: 30, withPad: " ", startingAt: 0)
+            print("│ \(item.id)  │ \(name) │ \(desc) │ $\(String(format: "%.2f", item.price).padding(toLength: 6, withPad: " ", startingAt: 0)) │")
         }
-
-        return String(data: data, encoding: .utf8) ?? "OK"
+        print("└────┴────────────┴────────────────────────────────┴─────────┘")
+        print("\n Total: \(items.count) items")
     }
 }
 ```
@@ -244,7 +281,8 @@ macOS command-line client that communicates with the FastAPI backend.
 ## API Integration
 - Backend runs at http://localhost:8000
 - Health check: GET /health
-- Add new endpoints as needed
+- Sample data: GET /items (returns list of items)
+- Item detail: GET /items/{id}
 
 ## Adding Features
 1. Add new async functions for API calls
@@ -352,6 +390,8 @@ def get_db():
 ```python
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
 
 app = FastAPI(
     title="Hackathon API",
@@ -368,6 +408,22 @@ app.add_middleware(
 )
 
 
+# --- Sample Data Model ---
+class Item(BaseModel):
+    id: int
+    name: str
+    description: str
+    price: float
+
+
+# --- Sample Data (replace with database later) ---
+SAMPLE_ITEMS = [
+    Item(id=1, name="Widget", description="A useful widget for your desk", price=9.99),
+    Item(id=2, name="Gadget", description="A fancy gadget with buttons", price=19.99),
+    Item(id=3, name="Gizmo", description="An amazing gizmo that does things", price=29.99),
+]
+
+
 @app.get("/")
 async def root():
     return {"message": "Hackathon API is running!", "docs": "/docs"}
@@ -376,6 +432,21 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+
+
+@app.get("/items", response_model=list[Item])
+async def get_items():
+    """Get all items - sample data to demonstrate the API pattern"""
+    return SAMPLE_ITEMS
+
+
+@app.get("/items/{item_id}")
+async def get_item(item_id: int):
+    """Get a specific item by ID"""
+    for item in SAMPLE_ITEMS:
+        if item.id == item_id:
+            return item
+    return {"error": "Item not found"}
 ```
 
 ### 5.7 Create .gitignore for Python
@@ -875,6 +946,7 @@ cd ../.. && git add . && git commit -m "Update submodules" && git push
 ## API Reference
 - Swagger: http://localhost:8000/docs
 - Health: http://localhost:8000/health
+- Items: http://localhost:8000/items (sample data)
 ```
 
 ---
