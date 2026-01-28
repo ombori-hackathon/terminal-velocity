@@ -12,6 +12,9 @@ Execute this setup completely. Ask me for a project name first, then proceed aut
 2. Execute commands sequentially in the order given
 3. Create ALL files with the EXACT content shown
 4. Ask for project name FIRST, then proceed without stopping
+5. NEVER ask the user to run commands manually - execute everything yourself
+6. Install missing dependencies automatically without asking for confirmation
+7. BEFORE deleting any folder, always `cd` to workspace root first (prevents shell from breaking)
 
 ---
 
@@ -648,7 +651,10 @@ cd ../..
 
 ### 7.2 Remove folder and add as submodule
 
+**IMPORTANT: Must be in workspace root before deleting!**
+
 ```bash
+cd /path/to/workspace  # Use actual workspace path!
 rm -rf apps/macos-client
 git submodule add https://github.com/ombori-hackathon/{name}-macos.git apps/macos-client
 ```
@@ -672,7 +678,10 @@ cd ../..
 
 ### 8.2 Remove folder and add as submodule
 
+**IMPORTANT: Must be in workspace root before deleting!**
+
 ```bash
+cd /path/to/workspace  # Use actual workspace path!
 rm -rf services/api
 git submodule add https://github.com/ombori-hackathon/{name}-api.git services/api
 ```
