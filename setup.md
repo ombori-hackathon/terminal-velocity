@@ -792,9 +792,11 @@ Based on the feature, determine scope:
 - **Swift client only** → `apps/macos-client/`
 - **Full stack** → Both repos
 
-### Step 3: Create Spec
+### Step 3: Enter Plan Mode
 
-Create `specs/YYYY-MM-DD-feature-name.md` with this structure:
+**IMPORTANT: Enter plan mode now using the EnterPlanMode tool.**
+
+In plan mode, create the spec file `specs/YYYY-MM-DD-feature-name.md` with this structure:
 
 ```markdown
 # Feature: [Name]
@@ -825,7 +827,7 @@ Create `specs/YYYY-MM-DD-feature-name.md` with this structure:
 ### Database Changes (if applicable)
 - New table/columns: [describe]
 
-## Tasks
+## Implementation Plan
 1. [ ] Write API tests (Red)
 2. [ ] Implement API endpoint (Green)
 3. [ ] Write Swift tests (Red)
@@ -833,6 +835,10 @@ Create `specs/YYYY-MM-DD-feature-name.md` with this structure:
 5. [ ] Integration test
 6. [ ] Commit and push
 ```
+
+After writing the spec, use ExitPlanMode to present it for user approval.
+
+**Do not proceed to implementation until the user approves the plan.**
 
 ### Step 4: TDD Red Phase - Write Failing Tests
 
