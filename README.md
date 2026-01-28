@@ -45,7 +45,7 @@ claude
 ### 3. Paste this prompt
 
 ```
-Fetch and execute https://raw.githubusercontent.com/ombori-hackathon/terminal-velocity/main/setup.md
+Paste the contents of setup.md into claude code
 ```
 
 ### 4. Answer the project name question
