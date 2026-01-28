@@ -68,7 +68,8 @@ Your workspace will have:
 - `cd services/api && uv run fastapi dev` - Run the API
 - `cd apps/macos-client && swift run` - Run the Swift client
 
-Use `/architect` to design your first feature!
+Use `/feature` to design your first feature!
+**You need to restart Claude Code / terminal to see the new /feature command**
 
 ## Need Help?
 
