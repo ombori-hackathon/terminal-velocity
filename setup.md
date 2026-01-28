@@ -1282,8 +1282,8 @@ Your hackathon workspace is ready:
 - ✅ SwiftUI app builds and runs
 - ✅ FastAPI backend runs with health endpoint
 - ✅ PostgreSQL database via Docker
-- ✅ Claude Code agents configured
+- ✅ Claude Code agents and skills configured
 
-**Next: Start building your hackathon project!**
+**Next: Restart Claude Code, then use `/feature` to start building!**
 
-Use `/feature` to build your first feature!
+Happy hacking!
