@@ -68,13 +68,24 @@ fi
 gh api orgs/ombori-hackathon --silent && echo "✅ Access to ombori-hackathon org confirmed" || echo "❌ No access to ombori-hackathon org - contact organizer"
 ```
 
-### 2.5 Install Docker Desktop (if missing)
+### 2.5 Install Docker Desktop (if missing) and ensure it's running
 ```bash
 if ! command -v docker &> /dev/null; then
     echo "Installing Docker..."
     brew install --cask docker
-    echo "⚠️  Please open Docker Desktop app to complete setup, then continue"
 fi
+
+# Check if Docker daemon is running, if not start Docker Desktop
+if ! docker info &> /dev/null; then
+    echo "Starting Docker Desktop..."
+    open -a Docker
+    echo "Waiting for Docker to start..."
+    while ! docker info &> /dev/null; do
+        sleep 2
+    done
+    echo "✅ Docker is running"
+fi
+
 docker --version
 docker compose version
 ```
@@ -138,8 +149,10 @@ cd {name}-ws
 
 ```bash
 cd apps/macos-client
-swift package init --name HackathonClient --type executable
+swift package init --name {Name}Client --type executable
 ```
+
+Note: `{Name}` is the project name in PascalCase (e.g., `team-awesome` → `TeamAwesomeClient`)
 
 ### 4.2 Replace Package.swift
 
@@ -165,9 +178,9 @@ let package = Package(
 import Foundation
 
 @main
-struct HackathonClient {
+struct {Name}Client {
     static func main() async throws {
-        print("🚀 Hackathon Client Starting...")
+        print("🚀 {name} Terminal Velocity Client Starting...")
 
         // API base URL (FastAPI backend)
         let baseURL = "http://localhost:8000"
@@ -182,8 +195,8 @@ struct HackathonClient {
         }
 
         print("\n📋 Available commands:")
-        print("   swift run HackathonClient")
-        print("\nReady for hackathon! 🎉")
+        print("   swift run {Name}Client")
+        print("\nReady for Terminal Velocity! 🚀")
     }
 
     static func fetchHealth(baseURL: String) async throws -> String {
@@ -219,7 +232,7 @@ macOS command-line client that communicates with the FastAPI backend.
 
 ## Commands
 - Build: `swift build`
-- Run: `swift run HackathonClient`
+- Run: `swift run {Name}Client`
 - Test: `swift test`
 
 ## Architecture
@@ -447,9 +460,9 @@ cd ../..
 ## STEP 6: Create GitHub Repos
 
 ```bash
-gh repo create ombori-hackathon/{name}-ws --public --description "Hackathon workspace with submodules"
-gh repo create ombori-hackathon/{name}-macos --public --description "Swift macOS client"
-gh repo create ombori-hackathon/{name}-api --public --description "FastAPI Python backend"
+gh repo create ombori-hackathon/{name}-ws --public --description "{name} - Terminal Velocity workspace"
+gh repo create ombori-hackathon/{name}-macos --public --description "{name} - Swift macOS client"
+gh repo create ombori-hackathon/{name}-api --public --description "{name} - FastAPI Python backend"
 ```
 
 ---
@@ -599,7 +612,7 @@ Swift developer for the macOS CLI client.
 - Location: apps/macos-client/
 - Entry point: Sources/main.swift
 - Build: swift build
-- Run: swift run HackathonClient
+- Run: swift run {Name}Client
 
 ## Patterns
 - Use async/await for all network calls
@@ -823,7 +836,7 @@ docker compose up -d
 cd services/api && uv run fastapi dev
 
 # Run Swift client (in new terminal)
-cd apps/macos-client && swift run HackathonClient
+cd apps/macos-client && swift run {Name}Client
 ```
 
 ## Structure
@@ -907,7 +920,7 @@ curl http://localhost:8000/health
 # 7. Test Swift client
 cd ../apps/macos-client
 swift build
-swift run HackathonClient
+swift run {Name}Client
 
 # 8. Check agents exist
 ls -la ../../.claude/agents/
