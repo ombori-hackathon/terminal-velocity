@@ -42,10 +42,10 @@ cd ~/Desktop/my-team-name
 claude
 ```
 
-### 3. Paste this prompt
+### 3. Paste the setup prompt
 
 ```
-Paste the contents of setup.md into claude code
+Paste the contents of **setup.md** into claude code
 ```
 
 ### 4. Answer the project name question
