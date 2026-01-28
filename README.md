@@ -29,11 +29,11 @@ Each team creates their own:
 
 ## Getting Started
 
-### 1. Create a folder for your project
+### 1. Create a folder for your project (this becomes your workspace)
 
 ```bash
-mkdir ~/Desktop/hackathon
-cd ~/Desktop/hackathon
+mkdir ~/Desktop/my-team-name
+cd ~/Desktop/my-team-name
 ```
 
 ### 2. Open Claude Code

@@ -135,10 +135,11 @@ echo "=========================="
 
 ## STEP 3: Create Workspace Structure
 
+The current folder becomes your workspace. Create the project structure:
+
 ```bash
-mkdir -p {name}-ws/apps/macos-client
-mkdir -p {name}-ws/services/api
-cd {name}-ws
+mkdir -p apps/macos-client
+mkdir -p services/api
 ```
 
 ---
