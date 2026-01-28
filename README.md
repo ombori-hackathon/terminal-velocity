@@ -2,6 +2,24 @@
 
 Welcome to the Ombori Hackathon! This repo contains everything you need to get started.
 
+**Why "Terminal Velocity"?** We're going terminal-only. No IDE. Let Claude Code do the work. This hackathon is about increasing our output velocity with AI agents - and getting comfortable with a new way of building software.
+
+---
+
+## The Rules
+
+| ✅ Allowed | ❌ Not Allowed |
+|-----------|---------------|
+| Claude Code in terminal | VS Code / any IDE |
+| Xcode to edit project settings (not code) | Manually using terminal, git commit, brew, anything |
+| Screenshots for feedback | Manually editing code files |
+| gh CLI for git operations | Copy-pasting code snippets |
+| Asking Claude questions | Using GitHub web interface |
+
+**The goal:** Let Claude do everything. You describe, Claude builds.
+
+---
+
 ## What You'll Build
 
 Each team creates their own:
