@@ -23,7 +23,7 @@ Welcome to the Ombori Hackathon! This repo contains everything you need to get s
 ## What You'll Build
 
 Each team creates their own:
-- **Swift CLI client** - macOS command-line app
+- **SwiftUI desktop app** - macOS native app
 - **FastAPI backend** - Python API with PostgreSQL
 - **Claude Code workspace** - AI-powered development environment
 
@@ -69,7 +69,14 @@ Your workspace will have:
 - `cd apps/macos-client && swift run` - Run the Swift client
 
 Use `/feature` to design your first feature!
+
 **You need to restart Claude Code / terminal to see the new /feature command**
+
+## Optional: Add Guardrails
+
+Want pre-commit hooks, linting, and formatting to catch mistakes automatically?
+
+Paste the contents of `guardrails.md` into Claude Code after setup.
 
 ## Need Help?
 
