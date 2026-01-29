@@ -34,7 +34,7 @@ Each team creates their own:
 Open the folder in terminal. (You can drag the folder into the Terminal icon in the dock) or
 
 ```bash
-cd ~/path-to/my-team-name
+cd ~/path-to/my-folder
 ```
 
 ### 2. Open Claude Code
