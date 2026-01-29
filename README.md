@@ -63,13 +63,14 @@ Claude Code will automatically:
 
 ## After Setup
 
+**!!You need to restart Claude Code / terminal to see the new commands and agents!!**
+
 Your workspace will have:
 - `docker compose up -d` - Start the database
 - `cd services/api && uv run fastapi dev` - Run the API
 - `cd apps/macos-client && swift run` - Run the Swift client
 
 Use `/feature` to design your first feature!
-**You need to restart Claude Code / terminal to see the new /feature command**
 
 ## Need Help?
 
