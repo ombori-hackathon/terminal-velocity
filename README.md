@@ -39,8 +39,10 @@ cd ~/path-to/my-folder
 
 ### 2. Open Claude Code
 
+Skip permissions for the hackathon to speed up workflow
+
 ```bash
-claude
+claude --dangerously-skip-permissions
 ```
 
 ### 3. Paste the setup prompt
