@@ -487,18 +487,89 @@ def get_db():
         db.close()
 ```
 
-### 5.6 Create app/main.py
+### 5.6 Create app/models/item.py
 
 ```python
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import Column, Integer, String, Float
+
+from app.db import Base
+
+
+class Item(Base):
+    __tablename__ = "items"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    description = Column(String)
+    price = Column(Float, nullable=False)
+```
+
+### 5.7 Create app/schemas/item.py
+
+```python
 from pydantic import BaseModel
+
+
+class ItemBase(BaseModel):
+    name: str
+    description: str
+    price: float
+
+
+class ItemCreate(ItemBase):
+    pass
+
+
+class Item(ItemBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+```
+
+### 5.8 Create app/main.py
+
+```python
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+
+from app.db import Base, engine, get_db
+from app.models.item import Item as ItemModel
+from app.schemas.item import Item as ItemSchema
+
+
+def seed_database(db: Session):
+    """Seed the database with sample items if empty"""
+    if db.query(ItemModel).count() == 0:
+        sample_items = [
+            ItemModel(name="Widget", description="A useful widget for your desk", price=9.99),
+            ItemModel(name="Gadget", description="A fancy gadget with buttons", price=19.99),
+            ItemModel(name="Gizmo", description="An amazing gizmo that does things", price=29.99),
+        ]
+        db.add_all(sample_items)
+        db.commit()
+        print("Database seeded with sample items")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: create tables and seed data
+    Base.metadata.create_all(bind=engine)
+    db = next(get_db())
+    seed_database(db)
+    db.close()
+    yield
+    # Shutdown: cleanup if needed
 
 
 app = FastAPI(
     title="Hackathon API",
     description="Backend API for Ombori Hackathon",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -508,22 +579,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-# --- Sample Data Model ---
-class Item(BaseModel):
-    id: int
-    name: str
-    description: str
-    price: float
-
-
-# --- Sample Data (replace with database later) ---
-SAMPLE_ITEMS = [
-    Item(id=1, name="Widget", description="A useful widget for your desk", price=9.99),
-    Item(id=2, name="Gadget", description="A fancy gadget with buttons", price=19.99),
-    Item(id=3, name="Gizmo", description="An amazing gizmo that does things", price=29.99),
-]
 
 
 @app.get("/")
@@ -536,22 +591,22 @@ async def health():
     return {"status": "healthy"}
 
 
-@app.get("/items", response_model=list[Item])
-async def get_items():
-    """Get all items - sample data to demonstrate the API pattern"""
-    return SAMPLE_ITEMS
+@app.get("/items", response_model=list[ItemSchema])
+async def get_items(db: Session = Depends(get_db)):
+    """Get all items from the database"""
+    return db.query(ItemModel).all()
 
 
-@app.get("/items/{item_id}")
-async def get_item(item_id: int):
+@app.get("/items/{item_id}", response_model=ItemSchema)
+async def get_item(item_id: int, db: Session = Depends(get_db)):
     """Get a specific item by ID"""
-    for item in SAMPLE_ITEMS:
-        if item.id == item_id:
-            return item
-    return {"error": "Item not found"}
+    item = db.query(ItemModel).filter(ItemModel.id == item_id).first()
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return item
 ```
 
-### 5.7 Create .gitignore for Python
+### 5.9 Create .gitignore for Python
 
 ```
 __pycache__/
@@ -566,14 +621,14 @@ build/
 uv.lock
 ```
 
-### 5.8 Create .env.example
+### 5.10 Create .env.example
 
 ```
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/hackathon
 DEBUG=true
 ```
 
-### 5.9 Create CLAUDE.md for Python submodule
+### 5.11 Create CLAUDE.md for Python submodule
 
 ```markdown
 # Hackathon API - FastAPI Backend
@@ -613,7 +668,7 @@ app/
 4. Register router in app/main.py
 ```
 
-### 5.10 Install dependencies and test
+### 5.12 Install dependencies and test
 
 ```bash
 uv sync
@@ -1217,7 +1272,7 @@ git push
 ## API Reference
 - Swagger: http://localhost:8000/docs
 - Health: http://localhost:8000/health
-- Items: http://localhost:8000/items (sample data)
+- Items: http://localhost:8000/items (from database)
 ```
 
 ---
