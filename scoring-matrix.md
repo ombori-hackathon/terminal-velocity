@@ -195,6 +195,7 @@ Award 1 point for each of the following (binary scoring):
 | crucible-collective |        |        |        |               |        |        |        |        |                 |                    |                    |
 | csaba-ombori-hack |        |        |        |               |        |        |        |        |                 |                    |                    |
 | hackathon-app |        |        |        |               |        |        |        |        |                 |                    |                    |
+| hackathon-lukas |        |        |        |               |        |        |        |        |                 |                    |                    |
 | kafeel |        |        |        |               |        |        |        |        |                 |                    |                    |
 | make-homer-proud-timer |        |        |        |               |        |        |        |        |                 |                    |                    |
 | mini-mate-1 |        |        |        |               |        |        |        |        |                 |                    |                    |
