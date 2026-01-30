@@ -1,12 +1,15 @@
 # Hackathon Judging Scoring Matrix
 
 ## Overview
-| Category | Points | Judges |
-|----------|--------|--------|
-| Following the Rules | 6 | Leads (Andreas, Kamil, Ross, Abdallah, Tom, Judit) |
-| Codebase Quality | 6 | Leads |
+
+| Category | Points | Scored By |
+|----------|--------|-----------|
+| Following the Rules | 6 | AI + Leads verify |
+| Codebase Quality | 6 | AI + Leads verify |
+| Git Workflow Bonus | +2 | AI |
+| **AI Total** | **14** | |
 | Creativity & Presentation | 8 | Everyone votes |
-| **TOTAL** | **20** | |
+| **COMBINED TOTAL** | **22** | |
 
 **DO NOT SCORE:** "terminal-velocity" - this is the setup template repo
 
@@ -14,31 +17,52 @@
 
 ## Category 1: Following the Rules (6 points max)
 
-### 1A. Compliance (0 - 2 points)
+### 1A. Compliance - Co-authoring (0-2 points)
+
 Did they follow the hackathon constraints?
+
+**Calculation:**
+- Exclude: Merge commits, initial template commits, submodule pointer updates
+- Include: All other development commits
+
+```
+Effective % = Co-authored / (Total - Merges - Initial)
+```
 
 | Score | Criteria |
 |-------|----------|
-| **2** | ~90%+ commits co-authored with Claude, gh CLI used for git ops, no IDE evidence |
-| **1** | Majority co-authored but noticeable gaps, or minor IDE evidence |
-| **0** | Clear evidence of manual editing, IDE usage, or most commits lack co-author |
+| **2** | 95%+ co-authoring AND no evidence of IDE editing |
+| **1.5** | 85-94% co-authoring |
+| **1** | 70-84% co-authoring |
+| **0.5** | 50-69% co-authoring |
+| **0** | <50% OR clear IDE/manual editing evidence |
 
 **How to verify:**
-- Check git log for `Co-Authored-By: Claude` on commits (expect ~90%+, not 100%)
+- Check git log for `Co-Authored-By: Claude` on commits
 - Look for commit patterns (IDE auto-saves, manual formatting changes)
 - Check if gh CLI was used (PR descriptions, branch patterns)
 
+**Red flags that reduce score:**
+- Commits with formatting-only changes (IDE auto-format)
+- Multiple rapid small commits (manual editing pattern)
+- Commits without meaningful messages
+
 ---
 
-### 1B. Claude Code Sophistication (0 - 3 points)
+### 1B. Claude Code Sophistication (0-3 points)
 
 Award 1 point for each of the following (binary scoring):
 
-#### Context Evolution & Distribution (0 or 1 point)
+#### Context Evolution (0 or 1 point)
 | Score | Criteria |
 |-------|----------|
-| **1** | Context evolved AND distributed smartly: lean claude.md with task-specific learnings pushed to agents/skills |
-| **0** | No evolution from template OR all context bloated in claude.md (no agent delegation) |
+| **1** | CLAUDE.md evolved with REAL learnings (not just template). Must show: specific gotchas, patterns discovered, or lessons learned during development. |
+| **0** | Template-only content OR no meaningful evolution |
+
+**To get this point, CLAUDE.md must contain SPECIFIC learnings like:**
+- "We discovered that X pattern works better than Y because..."
+- "Gotcha: When doing Z, make sure to..."
+- NOT generic statements like "This project uses SwiftUI"
 
 **What to look for:**
 - `.claude/commands/` for custom skills with embedded context
@@ -49,40 +73,43 @@ Award 1 point for each of the following (binary scoring):
 #### Sub-agents / Multi-agent Usage (0 or 1 point)
 | Score | Criteria |
 |-------|----------|
-| **1** | Custom sub-agent configurations, clear delegation patterns |
-| **0** | No sub-agent usage |
+| **1** | Custom agents in `.claude/agents/` with SPECIFIC roles and model assignments |
+| **0** | No agents OR only copied template agents without customization |
 
 #### Planning Files / Spec Files (0 or 1 point)
 | Score | Criteria |
 |-------|----------|
-| **1** | Evidence of plan mode usage (planning.md, spec files, architectural docs) |
-| **0** | No evidence of plan-first approach |
+| **1** | Actual spec/planning files with REAL content (not empty templates) |
+| **0** | No specs OR empty/template-only spec files |
 
 ---
 
-### 1C. Guardrails & Automation (0 - 1 point)
+### 1C. Guardrails & Automation (0-1 point)
+
+Must have AT LEAST TWO of the following configured AND working:
+- `.pre-commit-config.yaml` with actual hooks
+- Linting config (swiftlint.yml, ruff.toml) with custom rules
+- Test files that actually run (not just empty test files)
+- CI/CD workflows in `.github/workflows/`
 
 | Score | Criteria |
 |-------|----------|
-| **1** | Pre-commit hooks, linting, formatters, or tests configured via Claude |
-| **0** | No guardrails beyond default setup |
-
-**What to look for:**
-- `.pre-commit-config.yaml`
-- Linting configs (swiftlint, pylint/ruff/black)
-- Test files and test commands
-- CI/CD workflows
+| **1** | 2+ guardrails properly configured |
+| **0.5** | Only 1 guardrail configured |
+| **0** | No guardrails or only empty configs |
 
 ---
 
 ## Category 2: Codebase Quality (6 points max)
 
-### 2A. Architecture & Structure (0 - 2 points)
+### 2A. Architecture & Structure (0-2 points)
 
 | Score | Criteria |
 |-------|----------|
 | **2** | Clean separation of concerns, proper workspace + submodule structure, logical file organization |
+| **1.5** | Good structure with minor issues |
 | **1** | Decent structure but some messiness |
+| **0.5** | Poor organization |
 | **0** | Chaotic, no clear organization |
 
 **Check:**
@@ -92,12 +119,14 @@ Award 1 point for each of the following (binary scoring):
 
 ---
 
-### 2B. Code Quality (0 - 2 points)
+### 2B. Code Quality (0-2 points)
 
 | Score | Criteria |
 |-------|----------|
-| **2** | Clean code, proper error handling, no obvious bugs, follows language conventions |
+| **2** | Excellent: proper error handling, type safety, follows conventions, no obvious bugs |
+| **1.5** | Good with minor issues |
 | **1** | Functional but rough edges |
+| **0.5** | Poor practices |
 | **0** | Buggy, poor practices, doesn't follow conventions |
 
 **Check:**
@@ -106,27 +135,43 @@ Award 1 point for each of the following (binary scoring):
 
 ---
 
-### 2C. Functionality (0 - 1 point)
+### 2C. Functionality (0-1 point)
 
 | Score | Criteria |
 |-------|----------|
 | **1** | App works end-to-end (frontend talks to backend, core features work) |
+| **0.5** | Partially working |
 | **0** | Doesn't run or major broken features |
 
 ---
 
-### 2D. Documentation (0 - 1 point)
+### 2D. Documentation (0-1 point)
 
 | Score | Criteria |
 |-------|----------|
-| **1** | Good README, setup instructions, code comments where needed |
+| **1** | Good README with setup instructions, code comments where needed |
+| **0.5** | Minimal documentation |
 | **0** | No documentation or unusable README |
+
+---
+
+## Bonus: Git Workflow (+0 to +2)
+
+Award bonus points for professional Git practices:
+
+| Bonus | Criteria |
+|-------|----------|
+| **+1** | Used feature branches (not all commits to main) |
+| **+0.5** | Created PRs with descriptions |
+| **+0.5** | Used gh CLI for git operations (evidence in commit patterns) |
+
+**Maximum bonus: +2 points**
 
 ---
 
 ## Category 3: Creativity & Presentation (8 points max)
 
-*Scored by everyone*
+*Scored by everyone (human judges)*
 
 | Score | Criteria |
 |-------|----------|
@@ -187,27 +232,26 @@ Award 1 point for each of the following (binary scoring):
 
 ## Scoring Sheet
 
-| Participant | Compliance<br>(2) | Sophistication<br>(3) | Guardrails<br>(1) | Rules<br>(6) | Architecture<br>(2) | Code Quality<br>(2) | Functionality<br>(1) | Docs<br>(1) | Quality<br>(6) | Creativity<br>(8) | TOTAL<br>(20) |
-|-------------|-------------------|----------------------|-------------------|--------------|---------------------|---------------------|----------------------|-------------|----------------|-------------------|---------------|
-| agentarium |        |        |        |               |        |        |        |        |                 |                    |                    |
-| antisocial |        |        |        |               |        |        |        |        |                 |                    |                    |
-| anttuii |        |        |        |               |        |        |        |        |                 |                    |                    |
-| crucible-collective |        |        |        |               |        |        |        |        |                 |                    |                    |
-| csaba-ombori-hack |        |        |        |               |        |        |        |        |                 |                    |                    |
-| hackathon-app |        |        |        |               |        |        |        |        |                 |                    |                    |
-| hackathon-lukas |        |        |        |               |        |        |        |        |                 |                    |                    |
-| kafeel |        |        |        |               |        |        |        |        |                 |                    |                    |
-| make-homer-proud-timer |        |        |        |               |        |        |        |        |                 |                    |                    |
-| mini-mate-1 |        |        |        |               |        |        |        |        |                 |                    |                    |
-| neatdog |        |        |        |               |        |        |        |        |                 |                    |                    |
-| oculog |        |        |        |               |        |        |        |        |                 |                    |                    |
-| phystone |        |        |        |               |        |        |        |        |                 |                    |                    |
-| pulsync |        |        |        |               |        |        |        |        |                 |                    |                    |
-| spotdrop |        |        |        |               |        |        |        |        |                 |                    |                    |
-| team-awesome |        |        |        |               |        |        |        |        |                 |                    |                    |
-| team-bellard |        |        |        |               |        |        |        |        |                 |                    |                    |
-| teamfred |        |        |        |               |        |        |        |        |                 |                    |                    |
-| your-3d-print-decision-buddy |        |        |        |               |        |        |        |        |                 |                    |                    |
+| Participant | 1A | 1B | 1C | Rules | 2A | 2B | 2C | 2D | Quality | Bonus | AI Total | Creativity | FINAL |
+|-------------|----|----|----|----|----|----|----|----|---------|-------|----------|------------|-------|
+| agentarium | | | | | | | | | | | | | |
+| anttuii | | | | | | | | | | | | | |
+| crucible-collective | | | | | | | | | | | | | |
+| csaba-ombori-hack | | | | | | | | | | | | | |
+| friction-log | | | | | | | | | | | | | |
+| hackathon-lukas | | | | | | | | | | | | | |
+| kafeel | | | | | | | | | | | | | |
+| make-homer-proud-timer | | | | | | | | | | | | | |
+| mini-mate-1 | | | | | | | | | | | | | |
+| neatdog | | | | | | | | | | | | | |
+| oculog | | | | | | | | | | | | | |
+| phystone | | | | | | | | | | | | | |
+| pulsync | | | | | | | | | | | | | |
+| spotdrop | | | | | | | | | | | | | |
+| team-awesome | | | | | | | | | | | | | |
+| team-bellard | | | | | | | | | | | | | |
+| teamfred | | | | | | | | | | | | | |
+| your-3d-print-decision-buddy | | | | | | | | | | | | | |
 
 ---
 
