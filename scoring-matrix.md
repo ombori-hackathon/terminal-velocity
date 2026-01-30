@@ -189,11 +189,24 @@ Award 1 point for each of the following (binary scoring):
 
 | Participant | 1A (2) | 1B (3) | 1C (1) | **Rules (6)** | 2A (2) | 2B (2) | 2C (1) | 2D (1) | **Quality (6)** | **Creativity (8)** | **TOTAL (20)** |
 |-------------|--------|--------|--------|---------------|--------|--------|--------|--------|-----------------|--------------------|--------------------|
-|             |        |        |        |               |        |        |        |        |                 |                    |                    |
-|             |        |        |        |               |        |        |        |        |                 |                    |                    |
-|             |        |        |        |               |        |        |        |        |                 |                    |                    |
-|             |        |        |        |               |        |        |        |        |                 |                    |                    |
-|             |        |        |        |               |        |        |        |        |                 |                    |                    |
+| agentarium |        |        |        |               |        |        |        |        |                 |                    |                    |
+| antisocial |        |        |        |               |        |        |        |        |                 |                    |                    |
+| anttuii |        |        |        |               |        |        |        |        |                 |                    |                    |
+| crucible-collective |        |        |        |               |        |        |        |        |                 |                    |                    |
+| csaba-ombori-hack |        |        |        |               |        |        |        |        |                 |                    |                    |
+| hackathon-app |        |        |        |               |        |        |        |        |                 |                    |                    |
+| kafeel |        |        |        |               |        |        |        |        |                 |                    |                    |
+| make-homer-proud-timer |        |        |        |               |        |        |        |        |                 |                    |                    |
+| mini-mate-1 |        |        |        |               |        |        |        |        |                 |                    |                    |
+| neatdog |        |        |        |               |        |        |        |        |                 |                    |                    |
+| oculog |        |        |        |               |        |        |        |        |                 |                    |                    |
+| phystone |        |        |        |               |        |        |        |        |                 |                    |                    |
+| pulsync |        |        |        |               |        |        |        |        |                 |                    |                    |
+| spotdrop |        |        |        |               |        |        |        |        |                 |                    |                    |
+| team-awesome |        |        |        |               |        |        |        |        |                 |                    |                    |
+| team-bellard |        |        |        |               |        |        |        |        |                 |                    |                    |
+| teamfred |        |        |        |               |        |        |        |        |                 |                    |                    |
+| your-3d-print-decision-buddy |        |        |        |               |        |        |        |        |                 |                    |                    |
 
 ---
 
