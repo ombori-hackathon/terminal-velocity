@@ -13,13 +13,13 @@
 | 2C. Functionality | 0 | 1 | No submission |
 | 2D. Documentation | 0 | 1 | No submission |
 | **Quality Subtotal** | **0** | **6** | |
-| **TOTAL (Leads)** | **0** | **12** | |
+| **TOTAL** | **0** | **12** | |
 
 ## Detailed Analysis
 
 ### No Submission
 
-This participant did not submit a completed project. The repository exists but contains no substantive code or project work.
+This participant did not submit a completed project. The repository was not available for analysis.
 
 ## Where Points Were Lost
 
@@ -31,4 +31,4 @@ This participant did not submit a completed project. The repository exists but c
 
 ## Notes for Human Judges
 
-Based on prior test review, this was confirmed as a non-submission. Human judges may want to verify if there were extenuating circumstances.
+Repository not available in the judging participants folder. Human judges may want to verify if there were extenuating circumstances.

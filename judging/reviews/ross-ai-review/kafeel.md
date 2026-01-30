@@ -4,14 +4,14 @@
 
 | Category | Score | Max | Notes |
 |----------|-------|-----|-------|
-| 1A. Compliance | 2 | 2 | 89% co-authored commits (16/18 total), consistent usage |
+| 1A. Compliance | 2 | 2 | 100% co-authored development commits (16/16) |
 | 1B. Sophistication | 3 | 3 | Excellent context evolution, sub-agents, planning files |
 | 1C. Guardrails | 1 | 1 | Pre-commit hooks, SwiftLint, ruff configured |
 | **Rules Subtotal** | **6** | **6** | |
 | 2A. Architecture | 2 | 2 | Excellent SPM multi-module, clean separation |
 | 2B. Code Quality | 2 | 2 | Strong Swift 6, comprehensive tests, good patterns |
 | 2C. Functionality | 1 | 1 | Fully functional macOS app with rich features |
-| 2D. Documentation | 1 | 1 | Excellent CLAUDE.md with learnings, good README |
+| 2D. Documentation | 1 | 1 | Excellent CLAUDE.md with learnings |
 | **Quality Subtotal** | **6** | **6** | |
 | **TOTAL (Leads)** | **12** | **12** | |
 
@@ -19,10 +19,24 @@
 
 ### 1A. Compliance (2/2)
 
-**Co-authored Commits:**
-- Workspace: 7/8 commits co-authored (87.5%)
-- macos-client: 9/10 commits co-authored (90%)
-- Overall: 16/18 commits co-authored (~89%)
+#### Co-Authoring Analysis Table
+
+| Repository | Total | Merges | Initial/Template | Dev Commits | Co-Authored | % |
+|------------|-------|--------|------------------|-------------|-------------|---|
+| kafeel-ws (workspace) | 8 | 0 | 1 | 7 | 7 | **100%** |
+| macos-client | 10 | 0 | 1 | 9 | 9 | **100%** |
+| services/api | 1 | 0 | 1 | 0 | 0 | N/A |
+| **TOTAL** | **19** | **0** | **3** | **16** | **16** | **100%** |
+
+**Excluded Commits:**
+- Workspace: `9e35b54` "Initial workspace setup with submodules" (template)
+- macos-client: `59510dc` "Initial SwiftUI app setup" (template)
+- services/api: `d8af588` "Initial FastAPI backend setup" (template, only commit)
+
+**Co-authored Commits (using fair methodology):**
+- Development commits: 16
+- Co-authored: 16
+- Percentage: **100%**
 
 The one commit in workspace without co-author is the initial setup commit, which is expected. All feature commits consistently include `Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>`.
 

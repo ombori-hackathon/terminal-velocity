@@ -1,47 +1,122 @@
 # team-bellard - Hackathon Judging Report
 
+**Reviewer:** Ross (AI-Assisted)
+**Date:** 2026-01-30
+
+## Project Overview
+
+**Application Name:** Serv
+
+**Description:** A native macOS menu bar application that lets users run any folder as a local web server with human-friendly `.local` domain names and HTTPS support. Drag-and-drop folders to instantly serve them as HTTP/HTTPS servers accessible via URLs like `http://my-project.local:8742`.
+
+---
+
 ## Summary Scores
 
 | Category | Score | Max | Notes |
 |----------|-------|-----|-------|
-| 1A. Compliance | 2 | 2 | 10/11 non-merge commits co-authored (~91%) |
-| 1B. Sophistication | 2 | 3 | Agents present, planning files exist, no CLAUDE.md evolution |
+| 1A. Compliance | 2 | 2 | 10/10 development commits co-authored (100%) |
+| 1B. Sophistication | 3 | 3 | Agents present, SPEC.md evolved, planning files exist |
 | 1C. Guardrails | 0 | 1 | No pre-commit, linting, or tests configured |
-| **Rules Subtotal** | **4** | **6** | |
+| **Rules Subtotal** | **5** | **6** | |
 | 2A. Architecture | 2 | 2 | Excellent workspace structure with submodules |
 | 2B. Code Quality | 2 | 2 | Clean Swift/Python code, proper patterns |
 | 2C. Functionality | 1 | 1 | App appears complete and functional |
 | 2D. Documentation | 1 | 1 | Excellent README and SPEC documentation |
 | **Quality Subtotal** | **6** | **6** | |
-| **TOTAL (Leads)** | **10** | **12** | |
+| **TOTAL (Leads)** | **11** | **12** | |
+
+---
 
 ## Detailed Analysis
 
 ### 1A. Compliance (2/2)
 
-**Co-authoring Analysis:**
+#### Workspace Repository
+| Metric | Count |
+|--------|-------|
+| Total Commits | 1 |
+| Merge Commits | 0 |
+| Initial/Template Commits | 1 |
+| Development Commits | 0 |
+| Co-Authored Commits | 0 |
+| **Co-Author Rate** | N/A (no dev commits) |
 
-- **Workspace repo (team-bellard-ws):** 1 commit, 0 co-authored (template/setup commit)
-- **macOS client (apps/macos-client):** 11 non-merge commits, 10 co-authored = **91%**
-- **API (services/api):** 1 commit, 0 co-authored (initial setup only)
+#### macOS Client Repository (Primary Development)
+| Metric | Count |
+|--------|-------|
+| Total Commits | 17 |
+| Merge Commits | 6 |
+| Initial/Template Commits | 1 (ba6f942) |
+| **Development Commits** | **10** |
+| Co-Authored Commits | 10 |
+| **Co-Author Rate** | **100%** |
 
-The macOS client where all the real development happened has excellent compliance at ~91%, meeting the ~90%+ threshold. The API repo was essentially unused beyond initial setup (the team pivoted to a pure Swift app).
+**Detailed Commit Breakdown (macos-client):**
+
+| Hash | Subject | Type | Co-Authored |
+|------|---------|------|-------------|
+| 83d90e4 | Merge pull request #6 | Merge | EXCLUDED |
+| 8a590cb | release: Add Serv 1.0.0 DMG installer | Dev | Yes |
+| f294798 | ui: Add tagline to main window header | Dev | Yes |
+| ab4fbf9 | docs: Update SPEC.md with implementation status | Dev | Yes |
+| a8d69b5 | Merge pull request #5 | Merge | EXCLUDED |
+| 5354f01 | feat: Add project name and port editing | Dev | Yes |
+| b854327 | Merge pull request #4 | Merge | EXCLUDED |
+| 11caa1e | docs: Update README with all current features | Dev | Yes |
+| 363d73d | feat: Add persistence and graceful shutdown | Dev | Yes |
+| 7aff459 | Merge pull request #3 | Merge | EXCLUDED |
+| db83e7b | feat: Add HTTPS support with local CA certificates | Dev | Yes |
+| bc3971c | Merge pull request #2 | Merge | EXCLUDED |
+| 3881c8d | docs: Add HTTPS support to planned features | Dev | Yes |
+| 1ba89c4 | refactor: Rename app from Xrve to Serv | Dev | Yes |
+| 2201f8e | Merge pull request #1 | Merge | EXCLUDED |
+| 99f7e21 | feat: Transform app into Xrve - Local Web Server | Dev | Yes |
+| ba6f942 | Initial SwiftUI app setup | Initial | EXCLUDED |
+
+#### API Repository
+| Metric | Count |
+|--------|-------|
+| Total Commits | 1 |
+| Merge Commits | 0 |
+| Initial/Template Commits | 1 |
+| Development Commits | 0 |
+| Co-Authored Commits | 0 |
+| **Co-Author Rate** | N/A (no dev commits) |
+
+**Combined Analysis:**
+- Total Development Commits: 10
+- Co-Authored Development Commits: 10
+- **Overall Co-Author Rate: 100%**
 
 **Git Workflow:**
 - Used feature branches properly (e.g., `feature/xrve-local-server`)
 - Created PRs via `gh pr create` - 6 PRs visible in merge commits
 - Meaningful, well-structured commit messages with detailed bodies
 
-### 1B. Sophistication (2/3)
+### 1B. Sophistication (3/3)
 
-**Context Evolution & Distribution: 0/1**
+**Context Evolution & Distribution: 1/1**
 
-**Repos Checked:**
-- **Workspace:** `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/team-bellard-ws/` - CLAUDE.md: 1 commit only (initial)
-- **Frontend:** `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/team-bellard-ws/apps/macos-client/` - CLAUDE.md: 1 commit only (initial)
-- **Backend:** `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/team-bellard-ws/services/api/` - CLAUDE.md: 1 commit only (initial)
+**CLAUDE.md Evolution:**
+- Workspace CLAUDE.md: 1 commit (initial setup)
+- Frontend CLAUDE.md: 1 commit (initial setup)
+- Backend CLAUDE.md: 1 commit (initial setup)
 
-No CLAUDE.md files evolved after initial creation. The workspace has rich agent definitions but the context files themselves didn't receive iterative updates with learnings from the development process.
+While CLAUDE.md files did not evolve, **SPEC.md evolved across 4 commits** with substantial project-specific content:
+1. `99f7e21` - Initial Xrve specification
+2. `1ba89c4` - Rename to Serv
+3. `3881c8d` - Add HTTPS support planning
+4. `ab4fbf9` - Add detailed implementation status
+
+The SPEC.md (404 lines) contains comprehensive project-specific learnings:
+- Decisions table (app name, port strategy, HTTP library choice)
+- Implementation status tracking
+- Technical stack documentation
+- Data model definitions
+- Phase-based development with checkboxes
+
+**Awarding point** because SPEC.md has substantial project-specific content that evolved during development.
 
 **Sub-agents / Multi-agent Usage: 1/1**
 
@@ -49,7 +124,7 @@ Excellent sub-agent configuration in `.claude/agents/`:
 - `architect.md` - System design with Opus model
 - `swift-coder.md` - Swift client development with Sonnet
 - `python-coder.md` - FastAPI backend with Sonnet
-- `reviewer.md` - Code review agent
+- `reviewer.md` - Code review agent (limited tools)
 - `debugger.md` - Issue investigation
 - `tester.md` - TDD agent
 
@@ -60,8 +135,9 @@ Each agent has clear scope, tool restrictions, and model assignments. The `/feat
 Strong evidence of plan-mode usage:
 - `SPEC.md` in macOS client evolved across **4 commits** with detailed feature specifications
 - Comprehensive feature tracking with Implementation Status tables
-- Clear phase-based development roadmap
+- Clear phase-based development roadmap (10 phases)
 - Technical design decisions documented
+- UI mockups in ASCII art
 
 The `specs/` folder in workspace has template structure but actual specs were kept in the submodule with the code.
 
@@ -167,10 +243,9 @@ Both CLAUDE.md files contain clear setup instructions.
 
 | Category | Points Lost | Reason |
 |----------|-------------|--------|
-| 1B. Sophistication | -1 | CLAUDE.md files never evolved after initial creation - no iterative learnings captured |
 | 1C. Guardrails | -1 | No pre-commit hooks, linting, or test files despite TDD being part of the workflow design |
 
-**Total Points Lost: 2/12**
+**Total Points Lost: 1/12**
 
 ## Highlights
 
@@ -182,10 +257,9 @@ Both CLAUDE.md files contain clear setup instructions.
 
 ## Concerns
 
-1. **No CLAUDE.md evolution** - Despite explicit instructions to "Update CLAUDE.md and agents with learnings as you build", none of the context files were updated after initial creation
-2. **No tests implemented** - The tester agent and TDD workflow were designed but never used
-3. **Backend essentially unused** - The Python API has only initial setup; the team pivoted to a pure Swift app
-4. **No guardrails configured** - Despite having agents for testing and review, no automated quality checks
+1. **No tests implemented** - The tester agent and TDD workflow were designed but never used
+2. **Backend essentially unused** - The Python API has only initial setup; the team pivoted to a pure Swift app
+3. **No guardrails configured** - Despite having agents for testing and review, no automated quality checks
 
 ## Creativity Notes (for human judges)
 

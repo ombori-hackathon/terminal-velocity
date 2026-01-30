@@ -1,11 +1,16 @@
 # teamfred - Hackathon Judging Report
 
+**Project:** IdeaWall - Brainstorming board with sticky notes, AI suggestions, and collaboration features
+**Tech Stack:** Electron + React (TypeScript) / FastAPI (Python) / PostgreSQL
+
+---
+
 ## Summary Scores
 
 | Category | Score | Max | Notes |
 |----------|-------|-----|-------|
-| 1A. Compliance | 2 | 2 | Excellent co-authoring across all repos (88-90%+) |
-| 1B. Sophistication | 2 | 3 | Good agents/skills, but no CLAUDE.md evolution |
+| 1A. Compliance | 2 | 2 | 100% co-authoring on all development commits |
+| 1B. Sophistication | 2 | 3 | Excellent agents/skills, but no CLAUDE.md evolution |
 | 1C. Guardrails | 1 | 1 | Pre-commit, ruff, eslint, tests configured |
 | **Rules Subtotal** | **5** | **6** | |
 | 2A. Architecture | 2 | 2 | Clean separation, proper workspace structure |
@@ -15,17 +20,27 @@
 | **Quality Subtotal** | **6** | **6** | |
 | **TOTAL (Leads)** | **11** | **12** | |
 
+---
+
 ## Detailed Analysis
 
 ### 1A. Compliance (2/2)
 
-Excellent compliance with hackathon rules. Co-authoring statistics:
+#### Detailed Co-authoring Table
 
-- **Workspace**: 8/9 commits co-authored (89%)
-- **Desktop Client**: 9/10 commits co-authored (90%)
-- **API**: 5/6 commits co-authored (83%)
+| Repository | Total Commits | Merge Commits | Initial/Template | Development Commits | Co-authored | Percentage |
+|------------|---------------|---------------|------------------|---------------------|-------------|------------|
+| Workspace | 9 | 0 | 1 | 8 | 8 | **100%** |
+| Desktop-client | 10 | 0 | 1 | 9 | 9 | **100%** |
+| API | 6 | 0 | 1 | 5 | 5 | **100%** |
+| **TOTAL** | **25** | **0** | **3** | **22** | **22** | **100%** |
 
-All commits use the proper `Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>` format. Commit messages follow conventional commit style (feat:, fix:, chore:). The initial setup commits lacking co-authorship are expected (template creation).
+**Excluded Commits (Initial/Template):**
+- Workspace: "Initial workspace setup with submodules" (ae5e1ac)
+- Desktop-client: "Initial Electron React app setup" (a50a0ac)
+- API: "Initial FastAPI backend setup" (9d8eb5b)
+
+Excellent compliance with hackathon rules. All development commits use the proper `Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>` format. Commit messages follow conventional commit style (feat:, fix:, chore:). The initial setup commits lacking co-authorship are expected (template creation).
 
 No evidence of IDE usage or manual editing patterns. Development clearly followed Claude Code workflow.
 

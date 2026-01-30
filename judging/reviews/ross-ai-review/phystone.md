@@ -1,202 +1,192 @@
-# phystone - Hackathon Judging Report
+# Hackathon Judging Report: phystone
 
-## Summary Scores
+**Reviewer:** Ross (AI-assisted)
+**Date:** 2026-01-30
+**Repository:** /Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/
 
-| Category | Score | Max | Notes |
-|----------|-------|-----|-------|
-| 1A. Compliance | 0 | 2 | 0/3 commits co-authored, only initial template commits |
-| 1B. Sophistication | 1 | 3 | Good agent setup, but no evolution evidence |
-| 1C. Guardrails | 0 | 1 | No pre-commit, linting, or tests configured |
-| **Rules Subtotal** | **1** | **6** | |
-| 2A. Architecture | 2 | 2 | Clean workspace + submodule structure |
-| 2B. Code Quality | 2 | 2 | Well-structured Swift/Python code |
-| 2C. Functionality | 1 | 1 | App appears functional end-to-end |
-| 2D. Documentation | 0 | 1 | Empty README in API, no main README |
-| **Quality Subtotal** | **5** | **6** | |
-| **TOTAL (Leads)** | **6** | **12** | |
+---
 
-## Detailed Analysis
+## Executive Summary
 
-### 1A. Compliance (0/2)
+This submission is **template-only with no development work**. Each of the three repositories (workspace, macos-client, api) contains exactly one "Initial setup" commit with no Claude co-authoring. The codebase represents the untouched hackathon starter template with no feature development, no tests, no guardrails, and no evolved context.
 
-**Critical Issue: No co-authored commits found.**
+---
 
-All three repositories contain only a single "Initial" commit each:
-- Workspace: 1 commit - "Initial workspace setup with submodules" (no co-author tag)
-- Frontend: 1 commit - "Initial SwiftUI app setup" (no co-author tag)
-- Backend: 1 commit - "Initial FastAPI backend setup" (no co-author tag)
+## 1. Following the Rules (6 points max)
 
-Total commits across all repos: 3
-Commits with `Co-Authored-By: Claude`: 0
-Compliance rate: 0%
+### 1A. Compliance (0-2 points): **0 points**
 
-This appears to be a **template-only submission** - the code structure exists but there's no evidence of actual development work during the hackathon. The participant may have set up the workspace but not continued with feature development.
+#### Co-authoring Analysis
 
-No feature branches exist, no PRs were created, and no iterative development is visible in the git history.
+| Repository | Total Commits | Merge Commits | Initial/Setup | Development Commits | Co-authored | Percentage |
+|------------|---------------|---------------|---------------|---------------------|-------------|------------|
+| workspace | 1 | 0 | 1 | 0 | 0 | N/A |
+| macos-client | 1 | 0 | 1 | 0 | 0 | N/A |
+| api | 1 | 0 | 1 | 0 | 0 | N/A |
+| **TOTAL** | **3** | **0** | **3** | **0** | **0** | **N/A** |
 
-### 1B. Sophistication (1/3)
+**Commit Details:**
 
-- **Context Evolution & Distribution: 0/1**
-- **Sub-agent Usage: 1/1**
-- **Planning Files: 0/1**
+Workspace (phystone-ws):
+- `c33dfd5` - "Initial workspace setup with submodules" (zsolt halo, 2026-01-29) - NO co-author
 
-**Repos Checked:**
-- Workspace: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/` - CLAUDE.md evolution? No (1 commit only)
-- Frontend: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/apps/macos-client/` - CLAUDE.md evolution? No (1 commit only)
-- Backend: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/services/api/` - CLAUDE.md evolution? No (1 commit only)
+macos-client:
+- `fffe7a4` - "Initial SwiftUI app setup" (zsolt halo, 2026-01-29) - NO co-author
 
-**Sub-agents (1 point):** The workspace has a comprehensive set of 6 agents configured:
-- `architect.md` - System design and API contracts
-- `swift-coder.md` - Swift client development
-- `python-coder.md` - FastAPI backend development
-- `reviewer.md` - Code review
-- `debugger.md` - Issue investigation
-- `tester.md` - TDD workflow
+api:
+- `b934a42` - "Initial FastAPI backend setup" (zsolt halo, 2026-01-29) - NO co-author
 
-Additionally, there's a custom `/feature` skill in `.claude/skills/feature/SKILL.md` that defines a complete TDD workflow.
+**Assessment:** Zero development commits exist beyond the initial template setup. Since there are no development commits (all 3 are excluded as initial/setup), there is nothing to evaluate for Claude co-authoring compliance. Score: 0
 
-**Context Evolution (0 points):** While the CLAUDE.md files exist in all three repos, there's no evidence of evolution. Each CLAUDE.md was created in the initial commit and never modified. The workspace CLAUDE.md references continuous improvement patterns but none were actually applied.
+---
 
-**Planning Files (0 points):** The `specs/` folder exists with:
-- `README.md` - Instructions for specs
-- `_template.md` - Spec template
+### 1B. Claude Code Sophistication (0-3 points): **0 points**
 
-However, no actual feature specs were created (no dated spec files like `YYYY-MM-DD-feature-name.md`).
+#### Context Evolution (0/1)
+- **Score: 0** - No evolution from template
+- The CLAUDE.md files in all three repos contain standard template boilerplate
+- No project-specific learnings, patterns, or gotchas documented
+- No evidence of iterative updates (git history shows single initial commit per repo)
+- While the template has good structure, it was never customized or evolved
 
-### 1C. Guardrails (0/1)
+#### Sub-agents (0/1)
+- **Score: 0** - Template agents only, never utilized
+- `.claude/agents/` contains 6 agent files (architect, debugger, python-coder, reviewer, swift-coder, tester)
+- These are all template defaults with no customization or evidence of actual use
+- No agent-specific learnings captured during development
 
-**No guardrails configured:**
-- No `.pre-commit-config.yaml` found
-- No `ruff.toml` or linting configuration
-- No `.swiftlint.yml` found
-- No test files created (despite `pyproject.toml` having pytest configured)
-- No CI/CD workflows
+#### Planning Files (0/1)
+- **Score: 0** - No specs created
+- `specs/` directory contains only:
+  - `README.md` - Template explanation
+  - `_template.md` - Blank template file
+- No actual feature specifications created (would be named `YYYY-MM-DD-feature-name.md`)
 
-The `pyproject.toml` has test dependencies listed (`pytest`, `pytest-asyncio`, `httpx`) but no actual test files exist.
+---
 
-### 2A. Architecture (2/2)
+### 1C. Guardrails & Automation (0-1 points): **0 points**
 
-The architecture is clean and well-organized:
+- **Pre-commit hooks:** None configured (only `.sample` files exist)
+- **Linting:** None configured (no swiftlint, ruff, or similar)
+- **Tests:** None present (no test files in any repo despite pytest in dependencies)
+- **CI/CD:** No `.github/workflows/` directory
 
-**Workspace Structure:**
-```
-phystone-ws/
-├── CLAUDE.md (comprehensive)
-├── .claude/
-│   ├── agents/ (6 agents)
-│   ├── skills/ (feature skill)
-│   └── settings.local.json
-├── specs/ (template ready)
-├── apps/macos-client/ (submodule)
-├── services/api/ (submodule)
-└── docker-compose.yml
-```
+---
 
-**Swift App Structure:**
-```
-apps/macos-client/
-├── CLAUDE.md
-├── Package.swift (Swift 6.0, macOS 14+)
-└── Sources/
-    ├── PhystoneApp.swift (entry point)
-    ├── ContentView.swift (main view)
-    ├── ItemsTable.swift (component)
-    └── Models.swift (data models)
-```
+### Category 1 Total: **0/6 points**
 
-**API Structure:**
-```
-services/api/
-├── CLAUDE.md
-├── pyproject.toml
-└── app/
-    ├── main.py (FastAPI app)
-    ├── config.py (Pydantic settings)
-    ├── db.py (SQLAlchemy setup)
-    ├── models/ (ORM models)
-    ├── schemas/ (Pydantic schemas)
-    └── routers/ (empty, ready for use)
-```
+---
 
-Proper separation between frontend and backend, correct use of submodules, and logical folder organization.
+## 2. Codebase Quality (6 points max)
 
-### 2B. Code Quality (2/2)
+### 2A. Architecture & Structure (0-2 points): **1 point**
 
-**Swift Code:**
-- Proper SwiftUI patterns with `@State` for state management
-- Good use of async/await for network calls
-- Clean separation (App, ContentView, ItemsTable, Models)
-- Proper error handling with optional binding
-- Uses `URLSession.shared.data(from:)` correctly
-- Follows Swift naming conventions
-- macOS 14+ target with modern SwiftUI Table component
+- **Score: 1** - Template structure exists but represents no original work
+- Workspace properly configured with two submodules (apps/macos-client, services/api)
+- Standard folder structure for Swift (Sources/) and Python (app/)
+- Clear separation exists but is purely from template setup
+- Awarding 1 point for proper structure, but cannot award full marks for untouched template
 
-**Python Code:**
-- Proper FastAPI patterns with dependency injection
-- Pydantic schemas for request/response validation
-- SQLAlchemy 2.0 ORM with proper session management
-- Type hints used throughout
-- CORS middleware configured
-- Lifespan context manager for startup/shutdown
-- Proper exception handling with HTTPException
-- Clean separation: models, schemas, config, db
+### 2B. Code Quality (0-2 points): **0 points**
 
-### 2C. Functionality (1/1)
+- **Score: 0** - Only template/demo code exists
+- Swift code: Basic ContentView with hardcoded sample functionality (displays Widget, Gadget, Gizmo)
+- Python code: Minimal FastAPI setup with 3 hardcoded sample items seeded on startup
+- No actual feature development occurred to evaluate code quality
+- All code is template boilerplate, not participant's work
 
-The app appears to be functional end-to-end:
-- Docker Compose provides PostgreSQL database
-- FastAPI backend with health check and items endpoints
-- Database auto-seeds with sample data
-- Swift client connects to backend, shows health status
-- Items table displays data from API
-- Error handling shows appropriate messages when API is offline
+### 2C. Functionality (0-1 points): **0 points**
 
-The frontend-backend integration is complete with matching data models and API contracts.
+- **Score: 0** - Template functionality only, no features developed
+- The app may technically run but provides only the template demo functionality
+- No evidence of end-to-end feature development during hackathon
+- Just displays sample "Widget, Gadget, Gizmo" items from template
 
-### 2D. Documentation (0/1)
+### 2D. Documentation (0-1 points): **0 points**
 
-**Documentation is insufficient:**
-- Workspace has comprehensive CLAUDE.md but no user-facing README
-- API submodule has an empty README.md (0 bytes)
-- macOS client has no README
-- No setup instructions for end users
-- No project description or purpose documentation
+- **Score: 0** - Template documentation only
+- CLAUDE.md files are template boilerplate with no project-specific content
+- API README.md is empty (0 bytes)
+- No project-specific documentation created
+- No README explaining what the project actually does
 
-While the CLAUDE.md files are detailed, they serve as AI context rather than human documentation.
+---
 
-## Where Points Were Lost
+### Category 2 Total: **1/6 points**
 
-| Category | Points Lost | Reason |
-|----------|-------------|--------|
-| 1A | -2 | 0% of commits have co-author tag; appears to be template-only submission |
-| 1B | -2 | No CLAUDE.md evolution (single commit each), no planning files created |
-| 1C | -1 | No pre-commit hooks, linting, or tests configured |
-| 2D | -1 | Empty/missing README files, no user documentation |
+---
 
-**Total Points Lost: 6/12**
+## 3. Creativity & Presentation (8 points max)
 
-## Highlights
+**Score: 0/8 points**
 
-1. **Excellent agent architecture** - Six well-defined agents with clear responsibilities and a sophisticated `/feature` skill for TDD workflow
-2. **Clean code quality** - Both Swift and Python code follow best practices and conventions
-3. **Proper workspace structure** - Correct use of submodules, logical separation
-4. **Good template foundation** - Comprehensive CLAUDE.md with workflow instructions
-5. **Working end-to-end integration** - Frontend connects to backend properly
+- No creative work demonstrated
+- No unique features developed
+- No presentation of original ideas
+- Submission represents an untouched starter template
 
-## Concerns
+---
 
-1. **No actual development** - Only initial commits exist; no features were built beyond the template
-2. **Zero compliance** - No commits have Co-Authored-By tags
-3. **No tests** - Despite TDD being a core part of the workflow, no tests were written
-4. **No documentation** - Empty README in API, no main README
-5. **Unused infrastructure** - Agents, skills, and spec folders exist but were never used
+## Final Score Summary
 
-## Creativity Notes (for human judges)
+| Category | Max Points | Score |
+|----------|------------|-------|
+| 1A. Compliance | 2 | 0 |
+| 1B. Sophistication | 3 | 0 |
+| 1C. Guardrails | 1 | 0 |
+| **Rules Subtotal** | **6** | **0** |
+| 2A. Architecture | 2 | 1 |
+| 2B. Code Quality | 2 | 0 |
+| 2C. Functionality | 1 | 0 |
+| 2D. Documentation | 1 | 0 |
+| **Quality Subtotal** | **6** | **1** |
+| 3. Creativity | 8 | 0 |
+| **TOTAL** | **20** | **1** |
 
-This submission represents a well-thought-out **template** for hackathon development rather than an executed project. The agent and skill setup shows understanding of Claude Code capabilities:
+---
 
-- The `/feature` skill implements a complete plan-first, TDD workflow
-- Multiple specialized agents for different tasks (architect, coders, reviewer, debugger, tester)
-- Clear delegation patterns documented
+## Key Observations
 
-However, there's no evidence this infrastructure was actually used. The submission feels like "day zero" of development - everything set up but no features built. Human judges should consider whether the participant faced time constraints or technical issues that prevented actual development.
+1. **No Development Work:** This submission contains exactly 3 commits total across all repos, all of which are initial template setup commits from a single day (2026-01-29).
+
+2. **No Claude Interaction:** Zero evidence of Claude Code usage - no co-authored commits, no evolved context, no custom agents or skills utilized.
+
+3. **Template Only:** The entire codebase is the untouched hackathon starter template:
+   - Standard CLAUDE.md boilerplate
+   - Default agent configurations (never customized)
+   - Sample code displaying "Widget, Gadget, Gizmo"
+
+4. **No Feature Development:** The specs folder is empty (only contains README and template), indicating plan mode was never used for any features.
+
+5. **Infrastructure Unused:** While the template includes a sophisticated setup with 6 agents, a `/feature` skill, and TDD workflows, none of this infrastructure was actually utilized.
+
+---
+
+## Comparison with Previous Review
+
+The previous review awarded more generous scores (6/12 total) including:
+- 1B Sophistication: 1 point for sub-agents (changed to 0 - agents exist but were never used)
+- 2A Architecture: 2 points (changed to 1 - template structure only)
+- 2B Code Quality: 2 points (changed to 0 - only template code, no participant work)
+- 2C Functionality: 1 point (changed to 0 - template demo only)
+
+This revised scoring follows the fair methodology more strictly: we should not award points for template artifacts that were never customized or utilized during the hackathon.
+
+---
+
+## Recommendation
+
+This submission appears to be a registration/setup only with no actual participation in the hackathon development phase. The participant set up the repositories but did not proceed with any feature development using Claude Code. This is effectively a non-submission.
+
+---
+
+## Files Examined
+
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/CLAUDE.md`
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/apps/macos-client/CLAUDE.md`
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/services/api/CLAUDE.md`
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/.claude/agents/*.md`
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/.claude/skills/feature/SKILL.md`
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/specs/`
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/apps/macos-client/Sources/*.swift`
+- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/phystone-ws/services/api/app/main.py`

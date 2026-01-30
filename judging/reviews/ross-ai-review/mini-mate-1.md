@@ -1,10 +1,16 @@
 # mini-mate-1 - Hackathon Judging Report
 
+**Project:** MiniMate - Your Desktop Companion
+**Judged by:** Ross (AI-assisted review)
+**Date:** 2026-01-30
+
+---
+
 ## Summary Scores
 
 | Category | Score | Max | Notes |
 |----------|-------|-----|-------|
-| 1A. Compliance | 2 | 2 | ~88% co-authored commits across repos |
+| 1A. Compliance | 2 | 2 | 100% co-authored development commits |
 | 1B. Sophistication | 3 | 3 | Excellent context evolution, agents, planning |
 | 1C. Guardrails | 0 | 1 | No pre-commit hooks or linting configured |
 | **Rules Subtotal** | **5** | **6** | |
@@ -15,31 +21,83 @@
 | **Quality Subtotal** | **6** | **6** | |
 | **TOTAL (Leads)** | **11** | **12** | |
 
+---
+
 ## Detailed Analysis
 
 ### 1A. Compliance (2/2)
 
-**Co-authoring analysis across all repos:**
+**Co-authoring Calculation Method:**
+- Exclude: Merge commits ("Merge pull request" or "Merge branch")
+- Exclude: Initial template/setup commits (first "Initial" commit)
+- Count remaining development commits for compliance percentage
 
-| Repo | Total Commits | Co-Authored | Percentage |
-|------|---------------|-------------|------------|
-| Workspace | 5 | 3 | 60% |
-| macOS Client | 6 | 5 | 83% |
-| API Backend | 6 | 5 | 83% |
-| **Total** | **17** | **13** | **~76%** |
+#### Workspace Repository
 
-While the raw percentage is 76%, this is explained by:
-- Initial setup commits (template-generated) lacking co-author tags
-- Merge PR commit (automated) not having co-author tag
-- All substantive feature commits are properly co-authored
+| Hash | Subject | Co-authored | Excluded Reason |
+|------|---------|-------------|-----------------|
+| 335fbf8 | Merge pull request #1 | N/A | Merge commit |
+| 4051f37 | docs: Add README files and update submodules | Yes | - |
+| e550948 | docs: Add MiniMate spec and update submodules | Yes | - |
+| 5898a37 | feat: MiniMate - Your Adorable Desktop Companion | Yes | - |
+| 4f53671 | Initial workspace setup with submodules | No | Initial setup |
 
-The meaningful feature commits show consistent Claude Code usage:
-- `feat: MiniMate - Your Adorable Desktop Companion` (workspace)
-- `feat: MiniMate Desktop Companion - macOS client`
-- `feat: MiniMate Desktop Companion - API backend`
-- All `docs:` and `fix:` commits properly tagged
+| Metric | Count |
+|--------|-------|
+| Total commits | 5 |
+| Excluded (merge + initial) | 2 |
+| Development commits | 3 |
+| Co-authored | 3 |
+| **Rate** | **100%** |
 
-No evidence of IDE usage or manual editing patterns. Commit messages follow conventional format consistently.
+#### macOS Client Repository
+
+| Hash | Subject | Co-authored | Excluded Reason |
+|------|---------|-------------|-----------------|
+| dc12b08 | docs: Add README with project overview | Yes | - |
+| 825ab04 | fix: Handle backward compatibility | Yes | - |
+| a804550 | feat: Time-based hints, enhanced events UI | Yes | - |
+| b8775c2 | docs: Add learnings to CLAUDE.md | Yes | - |
+| 5570756 | feat: MiniMate Desktop Companion - macOS client | Yes | - |
+| dca834b | Initial SwiftUI app setup | No | Initial setup |
+
+| Metric | Count |
+|--------|-------|
+| Total commits | 6 |
+| Excluded (merge + initial) | 1 |
+| Development commits | 5 |
+| Co-authored | 5 |
+| **Rate** | **100%** |
+
+#### API Repository
+
+| Hash | Subject | Co-authored | Excluded Reason |
+|------|---------|-------------|-----------------|
+| 803b436 | docs: Add README with API documentation | Yes | - |
+| 396c9e6 | fix: Event reminder creates hint synchronously | Yes | - |
+| de61985 | feat: Time-based hints and enhanced settings | Yes | - |
+| 0bf6f59 | docs: Add learnings to CLAUDE.md | Yes | - |
+| a667db2 | feat: MiniMate Desktop Companion - API backend | Yes | - |
+| 27a8ee8 | Initial FastAPI backend setup | No | Initial setup |
+
+| Metric | Count |
+|--------|-------|
+| Total commits | 6 |
+| Excluded (merge + initial) | 1 |
+| Development commits | 5 |
+| Co-authored | 5 |
+| **Rate** | **100%** |
+
+#### Combined Analysis
+
+| Repository | Dev Commits | Co-authored | Rate |
+|------------|-------------|-------------|------|
+| Workspace | 3 | 3 | 100% |
+| macOS Client | 5 | 5 | 100% |
+| API | 5 | 5 | 100% |
+| **Total** | **13** | **13** | **100%** |
+
+**Score: 2/2** - Perfect co-authoring compliance. All development commits are co-authored with Claude. PRs were created using `gh` CLI. No evidence of IDE usage or manual editing patterns.
 
 ### 1B. Sophistication (3/3)
 

@@ -80,17 +80,87 @@ Most submissions have a workspace repo with two submodules. You MUST check ALL o
 
 For EACH repo, check for CLAUDE.md, .claude/commands/, git history, etc.
 
+---
+
+## FAIR SCORING METHODOLOGY
+
+### 1A. Compliance - Co-authoring Calculation
+
+**CRITICAL: Exclude these from the denominator when calculating co-authoring percentage:**
+- Merge commits (commits starting with "Merge pull request" or "Merge branch")
+- Submodule pointer update commits (commits that only update submodule references)
+- Initial template/setup commits (the very first "Initial" commit in each repo)
+
+**Include in numerator:** Any commit with "Co-Authored-By: Claude" or "Co-authored-by: Claude" (case-insensitive)
+
+**Calculation:**
+```
+Effective Co-authoring % = (Co-authored commits) / (Total commits - Merge commits - Initial commits)
+```
+
+**Example:**
+- 13 total commits
+- 2 merge commits (exclude)
+- 1 initial setup commit (exclude)
+- 10 remaining development commits
+- 9 of those 10 are co-authored
+- Result: 9/10 = 90% ✓ (NOT 9/13 = 69%)
+
+**Scoring:**
+- 2 points: 85%+ of development commits co-authored
+- 1.5 points: 70-84% of development commits co-authored
+- 1 point: 50-69% of development commits co-authored
+- 0 points: <50% or clear evidence of IDE/manual editing
+
+### 1B. Sophistication - Context Evolution
+
+**Context Evolution (1 point)** - Award if EITHER:
+1. CLAUDE.md was modified after initial creation (multiple commits touching it), OR
+2. CLAUDE.md contains substantial project-specific content beyond the template (learnings, patterns, gotchas documented)
+
+Check the CONTENT, not just the commit count. A well-written initial CLAUDE.md with real learnings counts.
+
+**Sub-agents (1 point)** - Award if:
+- `.claude/agents/` directory exists with custom agent configurations, OR
+- Agents are defined in CLAUDE.md with clear roles and model assignments
+
+**Planning Files (1 point)** - Award if ANY of:
+- Spec files exist in `specs/` or similar folder
+- Planning documentation in CLAUDE.md (feature specs, architecture decisions)
+- PRs with detailed descriptions showing plan-first approach
+- Feature planning markdown files anywhere in the repo
+
+### 1C. Guardrails
+
+Award 1 point if ANY guardrails are configured:
+- `.pre-commit-config.yaml` exists and has hooks defined
+- Linting configs (swiftlint.yml, ruff.toml, pyproject.toml with ruff/black)
+- Test files exist AND test command is documented
+- CI/CD workflows in `.github/workflows/`
+
+---
+
 ANALYSIS TASKS:
 1. **Claude Code Analysis** (1A Compliance + 1B Sophistication - 5 pts)
 
    FOR EACH OF THE 3 REPOS (workspace, frontend, backend):
-   - Check if CLAUDE.md exists and read it
-   - Check git log for CLAUDE.md changes: `git log --oneline -- CLAUDE.md` or `git log --oneline -- claude.md`
-   - Look for .claude/commands/ custom skills
+   - Check if CLAUDE.md exists and read it - assess if content is substantive or just template
+   - Check git log for CLAUDE.md changes: `git log --oneline -- CLAUDE.md`
+   - Look for .claude/commands/ and .claude/agents/ custom configurations
    - Find planning/spec files (*.md files with plans, specs, architecture)
-   - Check commit co-authoring: `git log --format="%s%n%b" | grep -c "Co-Authored-By: Claude"` vs total commits
 
-   Evolution means CLAUDE.md was MODIFIED after initial creation - look for multiple commits touching it.
+   **For co-authoring, use this EXACT command to get accurate counts:**
+   ```bash
+   echo "=== COMMIT ANALYSIS ===" && \
+   echo "Total commits:" && git log --oneline | wc -l && \
+   echo "Merge commits (EXCLUDE):" && git log --oneline --grep="^Merge" | wc -l && \
+   echo "Co-authored commits:" && git log --format="%s%n%b" | grep -ci "co-authored-by.*claude" && \
+   echo "" && \
+   echo "=== NON-CO-AUTHORED DEVELOPMENT COMMITS ===" && \
+   git log --format="COMMIT: %s" | grep -v "^Merge" | head -20
+   ```
+
+   Then manually verify: Are the non-co-authored commits just merges/initial setup, or actual development?
 
 2. **Swift/macOS Analysis** (2A + 2B partial)
    - Analyze apps/macos-client or similar structure
@@ -137,7 +207,17 @@ Use this format:
 ## Detailed Analysis
 
 ### 1A. Compliance (X/2)
-[Detailed reasoning]
+
+**Co-authoring Analysis (per repo):**
+
+| Repo | Total | Merges | Initial | Dev Commits | Co-authored | Effective % |
+|------|-------|--------|---------|-------------|-------------|-------------|
+| Workspace | X | X | X | X | X | X% |
+| Frontend | X | X | X | X | X | X% |
+| Backend | X | X | X | X | X | X% |
+| **Combined** | X | X | X | X | X | **X%** |
+
+[Detailed reasoning - note any non-co-authored commits that ARE actual development work]
 
 ### 1B. Sophistication (X/3)
 - Context Evolution & Distribution: X/1
@@ -145,9 +225,9 @@ Use this format:
 - Planning Files: X/1
 
 **Repos Checked:**
-- Workspace: [path] - CLAUDE.md evolution? [yes/no, # commits]
-- Frontend: [path] - CLAUDE.md evolution? [yes/no, # commits]
-- Backend: [path] - CLAUDE.md evolution? [yes/no, # commits]
+- Workspace: [path] - CLAUDE.md substantive content? [yes/no] Evolution? [yes/no, # commits]
+- Frontend: [path] - CLAUDE.md substantive content? [yes/no] Evolution? [yes/no, # commits]
+- Backend: [path] - CLAUDE.md substantive content? [yes/no] Evolution? [yes/no, # commits]
 
 [Detailed reasoning with specific evidence from each repo]
 
@@ -172,8 +252,7 @@ Summarize exactly where and why this participant lost marks. Be specific about w
 
 | Category | Points Lost | Reason |
 |----------|-------------|--------|
-| [e.g. 1A] | [e.g. -1] | [Specific reason, e.g. "~30% of commits missing co-author tag"] |
-| [e.g. 1B] | [e.g. -2] | [Specific reason, e.g. "No sub-agents used, no planning files found"] |
+| [e.g. 1A] | [e.g. -0.5] | [Specific reason with data] |
 | ... | ... | ... |
 
 **Total Points Lost: X/12**
@@ -192,7 +271,7 @@ Summarize exactly where and why this participant lost marks. Be specific about w
 
 These are the expected participants in `judging/participants/`:
 - agentarium-ws
-- antisocial-ws
+- antisocial-ws (or antisocial-workspace)
 - anttuii-ws
 - crucible-collective-ws
 - csaba-ombori-hack-ws
@@ -205,7 +284,7 @@ These are the expected participants in `judging/participants/`:
 - oculog-ws
 - phystone-ws
 - pulsync-ws
-- spotdrop-ws
+- spotdrop-ws (or spotdrop-workspace)
 - team-awesome-ws
 - team-bellard-ws
 - teamfred-ws

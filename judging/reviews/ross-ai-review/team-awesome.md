@@ -1,196 +1,310 @@
 # team-awesome - Hackathon Judging Report
 
+**Reviewed:** 2026-01-30
+**Methodology:** Fair Scoring v2 (excludes merge and initial commits from co-authoring denominator)
+
+---
+
 ## Summary Scores
 
 | Category | Score | Max | Notes |
 |----------|-------|-----|-------|
-| 1A. Compliance | 0 | 2 | No co-authored commits found (0/3 across all repos) |
+| 1A. Compliance | 0 | 2 | No development commits to evaluate (0 dev commits total) |
 | 1B. Sophistication | 1 | 3 | Has sub-agents but no context evolution or planning files |
 | 1C. Guardrails | 0 | 1 | No pre-commit hooks, linting, or tests configured |
 | **Rules Subtotal** | **1** | **6** | |
-| 2A. Architecture | 2 | 2 | Clean workspace + submodule structure |
-| 2B. Code Quality | 1 | 2 | Functional but minimal, some rough edges |
-| 2C. Functionality | 1 | 1 | App appears runnable end-to-end |
-| 2D. Documentation | 1 | 1 | Good README with setup instructions |
-| **Quality Subtotal** | **5** | **6** | |
-| **TOTAL (Leads)** | **6** | **12** | |
+| 2A. Architecture | 1 | 2 | Good template structure, empty implementation folders |
+| 2B. Code Quality | 1 | 2 | Clean template code, minimal actual implementation |
+| 2C. Functionality | 1 | 1 | Basic e2e works with sample data |
+| 2D. Documentation | 0 | 1 | CLAUDE.md files only, no README |
+| **Quality Subtotal** | **3** | **6** | |
+| **TOTAL (Leads)** | **4** | **12** | |
 
-## Detailed Analysis
+---
 
-### 1A. Compliance (0/2)
+## 1A. Compliance - Co-authoring Analysis (0/2)
 
-**CRITICAL ISSUE: No Claude co-authoring found across ANY repository.**
+### Fair Methodology Applied
 
-Commit analysis across all three repos:
+Per fair scoring guidelines, the following are **excluded from the denominator**:
+- Merge commits ("Merge pull request" or "Merge branch")
+- Initial template/setup commits (first "Initial" commit)
 
-| Repository | Total Commits | Co-Authored Commits | Percentage |
-|------------|---------------|---------------------|------------|
-| Workspace (team-awesome-ws/) | 1 | 0 | 0% |
-| Frontend (apps/macos-client/) | 1 | 0 | 0% |
-| Backend (services/api/) | 1 | 0 | 0% |
-| **TOTAL** | **3** | **0** | **0%** |
+### Co-authoring Statistics by Repository
 
-Commits found:
-- Workspace: `862ec68 Initial workspace setup with submodules`
-- Frontend: `301dd53 Initial SwiftUI app setup`
-- Backend: `8f3390f Initial FastAPI backend setup`
+| Repository | Total Commits | Excluded (Merges) | Excluded (Initial) | Dev Commits | Co-authored | % |
+|------------|---------------|-------------------|--------------------|--------------|--------------|----|
+| Workspace | 1 | 0 | 1 | **0** | 0 | N/A |
+| macos-client | 1 | 0 | 1 | **0** | 0 | N/A |
+| services/api | 1 | 0 | 1 | **0** | 0 | N/A |
+| **TOTAL** | **3** | **0** | **3** | **0** | **0** | **N/A** |
 
-None of these commits include the `Co-Authored-By: Claude` tag. This is a fundamental violation of the hackathon rules which required ~90%+ of commits to be co-authored with Claude.
+### Detailed Commit Analysis
 
-No evidence of gh CLI usage for git operations or IDE patterns were observable (though with only initial commits, this is hard to assess).
+**Workspace Repository:**
+```
+862ec68 - "Initial workspace setup with submodules" (Author: Ross)
+         -> EXCLUDED: Initial setup commit
+```
 
-### 1B. Sophistication (1/3)
+**macos-client Repository:**
+```
+301dd53 - "Initial SwiftUI app setup" (Author: Ross)
+         -> EXCLUDED: Initial setup commit
+```
 
-#### Context Evolution & Distribution: 0/1
+**services/api Repository:**
+```
+8f3390f - "Initial FastAPI backend setup" (Author: Ross)
+         -> EXCLUDED: Initial setup commit
+```
 
-**Repos Checked:**
-- Workspace: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/team-awesome-ws/` - CLAUDE.md evolution? **No** (1 commit only)
-- Frontend: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/team-awesome-ws/apps/macos-client/` - CLAUDE.md evolution? **No** (1 commit only)
-- Backend: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/team-awesome-ws/services/api/` - CLAUDE.md evolution? **No** (1 commit only)
+### Verdict
 
-All CLAUDE.md files exist but show no evidence of evolution. Each was created in a single "Initial setup" commit with no subsequent modifications. The workspace CLAUDE.md is a basic README-style file with no task-specific learnings.
+**Score: 0 points**
 
-#### Sub-agents / Multi-agent Usage: 1/1
+All 3 commits are initial setup commits, which are excluded from evaluation per fair methodology. With **zero development commits** to evaluate, there is no denominator - the co-authoring percentage cannot be calculated.
 
-The workspace includes a `.claude/agents/` directory with two agent configuration files:
-- `claude-python.md` - Python/FastAPI development agent with clear patterns and anti-patterns
-- `claude-swiftui.md` - SwiftUI development agent with project-specific guidance
+This effectively means no actual development work was committed during the hackathon, only initial template setup.
 
-These show intentional delegation to specialized agents for different parts of the stack.
+---
 
-#### Planning Files / Spec Files: 0/1
+## 1B. Sophistication (1/3)
 
-No evidence of plan mode usage:
-- No `planning.md`, `spec.md`, or architectural planning documents found
-- No files matching `*plan*.md` or `*spec*.md` patterns
-- No evidence of plan-first approach in any repository
+### Context Evolution & Distribution: 0/1
 
-### 1C. Guardrails (0/1)
+**CLAUDE.md Files Analyzed:**
 
-**No guardrails or automation configured:**
+| File | Size | Commits | Evolution? |
+|------|------|---------|------------|
+| `/CLAUDE.md` | 662 bytes | 1 | No |
+| `/apps/macos-client/CLAUDE.md` | 836 bytes | 1 | No |
+| `/services/api/CLAUDE.md` | 964 bytes | 1 | No |
 
-| Guardrail | Present? |
-|-----------|----------|
-| `.pre-commit-config.yaml` | No |
-| SwiftLint config | No |
-| Ruff/pylint/black config | No |
-| Test files (Python) | No |
-| Test files (Swift) | No |
-| CI/CD workflows (`.github/`) | No |
+**Content Assessment:**
+- Workspace CLAUDE.md: Basic quick start instructions, no project-specific learnings
+- Frontend CLAUDE.md: Generic SwiftUI context with commands and structure
+- Backend CLAUDE.md: Generic FastAPI context with project structure
 
-While `pyproject.toml` includes dev dependencies for pytest and pytest-asyncio, no actual test files were created.
+**Git History Check:**
+```bash
+# All CLAUDE.md files were created in initial commits with no subsequent modifications
+git log --oneline --follow -- CLAUDE.md
+862ec68 Initial workspace setup with submodules  # Only commit
+```
 
-### 2A. Architecture (2/2)
+**Verdict:** No evolution detected. All context files are boilerplate created in initial setup.
 
-**Clean separation and proper structure:**
+### Sub-agents / Multi-agent Usage: 1/1
 
-The project follows a proper monorepo architecture:
+**Evidence Found:**
+- `.claude/agents/claude-python.md` (778 bytes)
+- `.claude/agents/claude-swiftui.md` (521 bytes)
+
+**Content Analysis:**
+
+`claude-python.md`:
+- Key Info section with uv commands
+- Project structure documentation
+- Patterns (async handlers, Pydantic, SQLAlchemy 2.0)
+- Anti-patterns ("Don't" section)
+
+`claude-swiftui.md`:
+- Key Info with app name and target
+- Patterns for API calls
+- Anti-patterns (no #Preview macros, no UIKit)
+
+**Verdict:** Sub-agent configurations are present and contain useful domain-specific guidance.
+
+### Planning Files / Spec Files: 0/1
+
+**Searched For:**
+- `specs/` directory - Not found
+- `planning*.md` files - Not found
+- `*spec*.md` files - Not found
+- PR descriptions with detailed plans - No PRs exist
+
+**Verdict:** No evidence of plan-first approach.
+
+---
+
+## 1C. Guardrails (0/1)
+
+| Guardrail | Present? | Notes |
+|-----------|----------|-------|
+| `.pre-commit-config.yaml` | No | |
+| SwiftLint config | No | |
+| Ruff/pylint/black config | No | |
+| Python test files | No | pytest in pyproject.toml but no tests |
+| Swift test files | No | |
+| CI/CD workflows | No | No `.github/workflows/` |
+
+**Verdict:** No guardrails configured beyond the basic template.
+
+---
+
+## 2A. Architecture (1/2)
+
+**Repository Structure:**
 ```
 team-awesome-ws/
 ├── CLAUDE.md
-├── .claude/agents/          # Agent configurations
-├── docker-compose.yml       # PostgreSQL database
+├── .claude/
+│   └── agents/
+│       ├── claude-python.md
+│       └── claude-swiftui.md
+├── docker-compose.yml
+├── .gitmodules
 ├── apps/
-│   └── macos-client/        # SwiftUI frontend (submodule)
+│   └── macos-client/          # Git submodule
 │       ├── CLAUDE.md
 │       ├── Package.swift
 │       └── Sources/
+│           ├── TeamAwesomeApp.swift
+│           ├── ContentView.swift
+│           ├── ItemsTable.swift
+│           └── Models.swift
 └── services/
-    └── api/                 # FastAPI backend (submodule)
+    └── api/                   # Git submodule
         ├── CLAUDE.md
         ├── pyproject.toml
+        ├── main.py
         └── app/
             ├── main.py
             ├── config.py
             ├── db.py
-            ├── models/
-            ├── schemas/
-            └── routers/
+            ├── models/        # Empty (only __init__.py)
+            ├── schemas/       # Empty (only __init__.py)
+            └── routers/       # Empty (only __init__.py)
 ```
 
-- Clean workspace with 2 git submodules
-- Clear separation between Swift frontend and Python backend
-- Logical folder structure within each component
+**Positives:**
+- Proper monorepo with git submodules
+- Clear frontend/backend separation
 - Database configuration via Docker Compose
 
-### 2B. Code Quality (1/2)
+**Concerns:**
+- `models/`, `schemas/`, `routers/` directories are empty (only contain `__init__.py`)
+- Database setup in `db.py` is never actually used
+- Template structure without implementation
 
-**Swift Frontend:**
-- Proper SwiftUI patterns with `@State` property wrappers
-- Clean async/await usage with `URLSession`
-- Good separation of views (`ContentView`, `ItemsTable`)
-- Proper `Codable` models
-- Error handling with user-friendly messages
+**Verdict:** 1 point - Good template structure but empty implementation directories.
+
+---
+
+## 2B. Code Quality (1/2)
+
+### Swift Frontend Analysis
+
+**Files Reviewed:**
+- `TeamAwesomeApp.swift` - Clean SwiftUI entry point with proper macOS activation
+- `ContentView.swift` - Good async/await patterns, proper state management
+- `ItemsTable.swift` - Clean table view implementation
+- `Models.swift` - Proper Codable structs
+
+**Quality Indicators:**
+- Proper use of `@State` property wrappers
+- Good error handling with user-friendly messages
+- Clean async data loading pattern
 - macOS 14+ targeting with Swift 6.0
 
-**Python Backend:**
-- FastAPI with CORS middleware configured
-- Pydantic models for validation
-- SQLAlchemy 2.0 setup (though not actually used - routes use sample data)
+### Python Backend Analysis
+
+**Files Reviewed:**
+- `app/main.py` - FastAPI with CORS, Pydantic models, sample data
+- `app/config.py` - Pydantic settings
+- `app/db.py` - SQLAlchemy setup (unused)
+
+**Quality Indicators:**
 - Async route handlers
-- Type hints present but incomplete
+- CORS properly configured
+- Type hints via Pydantic
 
 **Issues:**
-- `get_item()` endpoint returns dict `{"error": "Item not found"}` instead of proper HTTP 404
-- Database setup exists (`db.py`, `config.py`) but isn't actually integrated
-- Empty `models/`, `schemas/`, `routers/` directories suggest incomplete implementation
-- Root `main.py` in api is just a placeholder "Hello from api!" script
+- `get_item()` returns dict instead of HTTP 404 for not found
+- `db.py` uses sync operations (`get_db` yields sync session)
+- Root `main.py` is placeholder "Hello from api!" script
+- Database layer never integrated with routes
 
-### 2C. Functionality (1/1)
+**Verdict:** 1 point - Clean template code but minimal actual implementation.
 
-The app appears runnable end-to-end based on the code structure:
+---
 
-1. Docker Compose provides PostgreSQL database
-2. FastAPI backend serves `/health` and `/items` endpoints
-3. SwiftUI frontend connects to `localhost:8000`
-4. Frontend displays items in a table with proper loading/error states
+## 2C. Functionality (1/1)
 
-The frontend gracefully handles API unavailability with helpful error messages.
+**End-to-End Flow:**
+1. Docker Compose provides PostgreSQL (though unused)
+2. FastAPI backend serves `/health` and `/items` endpoints with sample data
+3. SwiftUI frontend fetches and displays items in a table
+4. Error states handled gracefully with helpful messages
 
-### 2D. Documentation (1/1)
+**Verdict:** Basic e2e works with hardcoded sample data.
 
-**Good documentation provided:**
+---
 
-- Workspace CLAUDE.md includes quick start instructions
-- Clear submodule initialization guidance
-- Both frontend and backend CLAUDE.md files include:
-  - Build/run commands
-  - Project structure explanations
-  - Architecture notes
-  - Feature addition guidance
+## 2D. Documentation (0/1)
 
-## Where Points Were Lost
+**Documentation Found:**
+- CLAUDE.md files (workspace, frontend, backend) - Serve as Claude context, not user docs
+- No README.md files
+- No API documentation beyond auto-generated FastAPI /docs
 
-| Category | Points Lost | Reason |
-|----------|-------------|--------|
-| 1A. Compliance | -2 | 0% of commits (0/3) have Co-Authored-By: Claude tag - complete rule violation |
-| 1B. Sophistication | -2 | No CLAUDE.md evolution (all single-commit creation), no planning/spec files |
-| 1C. Guardrails | -1 | No pre-commit hooks, linting, or tests configured |
-| 2B. Code Quality | -1 | Incomplete API implementation, error handling issues, unused database setup |
+**CLAUDE.md Content:**
+- Quick start commands
+- Project structure
+- Basic setup instructions
 
-**Total Points Lost: 6/12**
+**Verdict:** 0 points - CLAUDE.md files are more for Claude than for users. No actual README documentation.
 
-## Highlights
+---
 
-1. **Clean Architecture**: Proper monorepo structure with git submodules for frontend and backend separation
-2. **Sub-agent Configuration**: Well-organized `.claude/agents/` directory with specialized agent files for Python and SwiftUI development
-3. **Docker Integration**: PostgreSQL database ready via Docker Compose
-4. **SwiftUI Best Practices**: Proper use of async/await, state management, and error handling in the macOS client
-5. **Good Documentation**: Clear setup instructions and project structure documentation in CLAUDE.md files
+## Key Observations
 
-## Concerns
+1. **Template-Only Submission:** The project contains only initial setup commits with no subsequent development. All 3 commits across all repositories are "Initial...setup" commits.
 
-1. **Zero Claude Co-authoring**: The complete absence of co-authored commits is a fundamental violation of hackathon rules and suggests either the work wasn't done with Claude Code or co-authoring was disabled
-2. **No Context Evolution**: All CLAUDE.md files created in initial commits with no subsequent updates, suggesting no iterative learning process
-3. **Incomplete Backend**: Database layer is set up but never used; models/schemas/routers directories are empty
-4. **No Tests or Guardrails**: Despite having test dependencies in pyproject.toml, no actual tests were written
-5. **Minimal Codebase**: Only 3 total commits across all repositories suggests very limited development activity
+2. **No Co-authored Commits:** Using fair methodology that excludes initial commits, there are zero development commits to evaluate. The project appears to be a starter template that was not developed further.
 
-## Creativity Notes (for human judges)
+3. **Agent Configuration Present:** Despite minimal development, properly structured sub-agent files exist in `.claude/agents/`.
 
-This submission appears to be a basic template implementation rather than a creative hackathon project. The code structure is well-organized but represents minimal feature development beyond the initial setup. There is no unique or innovative functionality - just a basic items list display.
+4. **Incomplete Backend:** Database layer is set up but never connected. Model/Schema/Router directories are empty.
 
-The project would benefit from human judge verification on:
-- Why no Claude co-authoring tags exist
-- Whether development happened outside the tracked repositories
-- What the intended unique product/feature was supposed to be
+5. **No Tests Despite Dependencies:** pytest is in pyproject.toml dev dependencies but no test files exist.
+
+---
+
+## Verification Commands Used
+
+```bash
+# Workspace repo
+cd /Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/team-awesome-ws
+echo "Total:" && git log --oneline | wc -l
+# Output: 1
+echo "Merges:" && git log --oneline | grep -i "^[a-f0-9]* Merge" | wc -l
+# Output: 0
+echo "Co-authored:" && git log --format="%B" | grep -ci "co-authored-by.*claude"
+# Output: 0
+
+# Frontend repo
+cd apps/macos-client
+# Total: 1, Merges: 0, Co-authored: 0
+
+# Backend repo
+cd ../../services/api
+# Total: 1, Merges: 0, Co-authored: 0
+```
+
+---
+
+## Final Assessment
+
+This submission represents a well-structured hackathon template that was not developed beyond the initial setup. The architecture is sound and sub-agent configurations are in place, but there is no evidence of actual development work during the hackathon - only three initial setup commits exist across all repositories.
+
+**Points Breakdown:**
+- Following Rules: 1/6 (sub-agents only)
+- Codebase Quality: 3/6 (functional template)
+- **Lead Total: 4/12**
+- Creativity: TBD (pending presentation)
+
+---
+
+*Report generated using fair methodology: Initial/setup commits excluded from co-authoring denominator.*

@@ -1,47 +1,97 @@
 # crucible-collective - Hackathon Judging Report
 
+**Project:** The Crucible TCG - A generative trading card game
+**Reviewer:** Ross (AI-assisted)
+**Date:** 2026-01-30
+
+---
+
 ## Summary Scores
 
 | Category | Score | Max | Notes |
 |----------|-------|-----|-------|
-| 1A. Compliance | 2 | 2 | ~88% co-authored commits (23/26 total across repos) |
-| 1B. Sophistication | 2 | 3 | Good agent setup but no context evolution, no planning files used |
+| 1A. Compliance | 2 | 2 | **100%** co-authored (23/23 dev commits, excluding 3 initial setup) |
+| 1B. Sophistication | 3 | 3 | Context evolution (backend CLAUDE.md updated), 6 agents, planning infrastructure |
 | 1C. Guardrails | 1 | 1 | Pre-commit hooks with ruff, pytest; SwiftLint configured |
-| **Rules Subtotal** | **5** | **6** | |
+| **Rules Subtotal** | **6** | **6** | |
 | 2A. Architecture | 2 | 2 | Clean MVVM on Swift, well-structured FastAPI backend |
 | 2B. Code Quality | 2 | 2 | Excellent code quality, proper error handling, type hints |
 | 2C. Functionality | 1 | 1 | Full stack working: loot, fuse, stash, sell endpoints |
 | 2D. Documentation | 1 | 1 | Detailed CLAUDE.md files with commands, structure, patterns |
 | **Quality Subtotal** | **6** | **6** | |
-| **TOTAL (Leads)** | **11** | **12** | |
+| **TOTAL (Leads)** | **12** | **12** | |
 
 ## Detailed Analysis
 
 ### 1A. Compliance (2/2)
 
-**Co-authored commit analysis:**
+**Co-authored commit analysis (excluding initial setup and merge commits):**
 
-| Repo | Total Commits | Co-Authored | Percentage |
-|------|---------------|-------------|------------|
-| Workspace | 9 | 8 | 89% |
-| macOS Client | 10 | 9 | 90% |
-| API | 7 | 6 | 86% |
-| **Total** | **26** | **23** | **88%** |
+#### Workspace Repository
+| Metric | Count |
+|--------|-------|
+| Total Commits | 9 |
+| Merge Commits | 0 |
+| Initial Setup Commits | 1 (`5cca2b9 Initial workspace setup with submodules`) |
+| **Development Commits** | **8** |
+| Co-authored Commits | 8 |
+| **Co-author Rate** | **100%** (8/8) |
 
-All commits follow proper conventions with detailed commit messages. The missing co-author tags are on initial setup commits, which is acceptable. Commit messages are descriptive with multi-line bodies explaining changes. No evidence of IDE auto-saves or manual editing patterns. The gh CLI appears to have been used (proper commit patterns).
+#### Frontend Repository (apps/macos-client)
+| Metric | Count |
+|--------|-------|
+| Total Commits | 10 |
+| Merge Commits | 0 |
+| Initial Setup Commits | 1 (`92d6954 Initial SwiftUI app setup`) |
+| **Development Commits** | **9** |
+| Co-authored Commits | 9 |
+| **Co-author Rate** | **100%** (9/9) |
 
-### 1B. Sophistication (2/3)
+#### Backend Repository (services/api)
+| Metric | Count |
+|--------|-------|
+| Total Commits | 7 |
+| Merge Commits | 0 |
+| Initial Setup Commits | 1 (`f2f481a Initial FastAPI backend setup`) |
+| **Development Commits** | **6** |
+| Co-authored Commits | 6 |
+| **Co-author Rate** | **100%** (6/6) |
+
+#### Combined Summary
+| Repository | Total | Excluded | Dev Commits | Co-authored | Rate |
+|------------|-------|----------|-------------|-------------|------|
+| Workspace | 9 | 1 | 8 | 8 | 100% |
+| Frontend | 10 | 1 | 9 | 9 | 100% |
+| Backend | 7 | 1 | 6 | 6 | 100% |
+| **TOTAL** | **26** | **3** | **23** | **23** | **100%** |
+
+All development commits are properly co-authored with Claude. Commit messages are descriptive with multi-line bodies explaining changes. No evidence of IDE auto-saves or manual editing patterns. The gh CLI appears to have been used (proper commit patterns).
+
+### 1B. Sophistication (3/3)
 
 **Repos Checked:**
-- Workspace: `/judging/participants/crucible-collective-ws/CLAUDE.md` - evolution? No, 1 commit (initial)
-- Frontend: `/apps/macos-client/CLAUDE.md` - evolution? No, 1 commit (initial)
-- Backend: `/services/api/CLAUDE.md` - evolution? **Yes**, 2 commits (updated with full project docs)
+- Workspace: `/judging/participants/crucible-collective-ws/CLAUDE.md` - evolution? No (1 commit)
+- Frontend: `/apps/macos-client/CLAUDE.md` - evolution? No (1 commit)
+- Backend: `/services/api/CLAUDE.md` - evolution? **Yes** (2 commits - significantly updated)
 
-#### Context Evolution & Distribution (0/1)
+#### Context Evolution & Distribution (1/1)
 
-While the backend CLAUDE.md was updated after initial creation (showing some evolution), the workspace and frontend CLAUDE.md files were not evolved. More importantly, the agents in `.claude/agents/` were only created in the initial commit and never updated with learnings during development. The scoring criteria requires context to be "evolved AND distributed smartly: lean claude.md with task-specific learnings pushed to agents/skills."
+**Score: 1/1** - Per scoring criteria: "Award if EITHER: CLAUDE.md modified after creation, OR CLAUDE.md has substantial project-specific content"
 
-The agents exist and are well-structured, but there's no evidence of iterative refinement based on development learnings. The agents contain generic instructions rather than project-specific patterns discovered during development.
+The backend CLAUDE.md was significantly updated between initial setup (`f2f481a`) and the loot system commit (`9a83aa2`). The diff shows:
+- **Title changed** from generic "Hackathon API" to "The Crucible TCG"
+- **Added 60+ lines** of project-specific content including:
+  - Full project structure with all directories (models, schemas, routers, services, orchestrator, personas, data)
+  - Database schema documentation
+  - API endpoints reference with parameters
+  - Logging patterns with code examples
+  - Economy constants (gold ranges for each rarity)
+  - Environment variables documentation
+
+The workspace CLAUDE.md contains substantial project-specific content:
+- References to specialized agents for delegation
+- Clear workflow documentation
+- API reference with endpoints
 
 #### Sub-agents / Multi-agent Usage (1/1)
 
@@ -215,9 +265,9 @@ app/
 
 | Category | Points Lost | Reason |
 |----------|-------------|--------|
-| 1B | -1 | Context files not evolved during development. CLAUDE.md and agent files were created in initial commit and not updated with learnings. No evidence of iterative refinement. |
+| None | 0 | Perfect score in all lead-scored categories |
 
-**Total Points Lost: 1/12**
+**Total Points Lost: 0/12**
 
 ## Highlights
 
