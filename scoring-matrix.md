@@ -3,24 +3,24 @@
 ## Overview
 | Category | Points | Judges |
 |----------|--------|--------|
-| Creativity & Presentation | 4 | Everyone votes |
-| Following the Rules | 3 | Leads (Andreas, Kamil, Ross, Abdallah, Tom, Judit) |
-| Codebase Quality | 3 | Leads |
-| **TOTAL** | **10** | |
+| Following the Rules | 6 | Leads (Andreas, Kamil, Ross, Abdallah, Tom, Judit) |
+| Codebase Quality | 6 | Leads |
+| Creativity & Presentation | 8 | Everyone votes |
+| **TOTAL** | **20** | |
 
 **DO NOT SCORE:** "terminal-velocity" - this is the setup template repo
 
 ---
 
-## Category 1: Following the Rules (3 points max)
+## Category 1: Following the Rules (6 points max)
 
-### 1A. Compliance (0 - 0.75 points)
+### 1A. Compliance (0 - 2 points)
 Did they follow the hackathon constraints?
 
 | Score | Criteria |
 |-------|----------|
-| **0.75** | ~90%+ commits co-authored with Claude, gh CLI used for git ops, no IDE evidence |
-| **0.4** | Majority co-authored but noticeable gaps, or minor IDE evidence |
+| **2** | ~90%+ commits co-authored with Claude, gh CLI used for git ops, no IDE evidence |
+| **1** | Majority co-authored but noticeable gaps, or minor IDE evidence |
 | **0** | Clear evidence of manual editing, IDE usage, or most commits lack co-author |
 
 **How to verify:**
@@ -30,18 +30,15 @@ Did they follow the hackathon constraints?
 
 ---
 
-### 1B. Claude Code Sophistication (0 - 1.5 points)
+### 1B. Claude Code Sophistication (0 - 3 points)
 
-#### Context Evolution & Distribution (0 - 0.6)
+Award 1 point for each of the following (binary scoring):
 
-**Prerequisite:** Context must have actually evolved during the project. If claude.md and agents are unchanged from template, score 0 for this entire subsection.
-
+#### Context Evolution & Distribution (0 or 1 point)
 | Score | Criteria |
 |-------|----------|
-| **0.6** | Context evolved AND distributed smartly: lean claude.md with task-specific learnings pushed to agents/skills (best practice) |
-| **0.45** | Context evolved AND some distribution to agents, but claude.md still doing heavy lifting |
-| **0.3** | Context evolved but all in claude.md (bloated main file, no agent delegation) |
-| **0** | No evolution from template - learnings didn't feed back into context |
+| **1** | Context evolved AND distributed smartly: lean claude.md with task-specific learnings pushed to agents/skills |
+| **0** | No evolution from template OR all context bloated in claude.md (no agent delegation) |
 
 **What to look for:**
 - `.claude/commands/` for custom skills with embedded context
@@ -49,28 +46,25 @@ Did they follow the hackathon constraints?
 - Lean claude.md that references agents rather than containing everything
 - Evidence of iterative updates (git history of context files)
 
-#### Sub-agents / Multi-agent Usage (0 - 0.45)
+#### Sub-agents / Multi-agent Usage (0 or 1 point)
 | Score | Criteria |
 |-------|----------|
-| **0.45** | Custom sub-agent configurations, clear delegation patterns |
-| **0.2** | Some sub-agent usage evident |
+| **1** | Custom sub-agent configurations, clear delegation patterns |
 | **0** | No sub-agent usage |
 
-#### Planning Files / Spec Files (0 - 0.45)
+#### Planning Files / Spec Files (0 or 1 point)
 | Score | Criteria |
 |-------|----------|
-| **0.45** | Evidence of plan mode usage (planning.md, spec files, architectural docs) |
-| **0.2** | Some planning artifacts |
+| **1** | Evidence of plan mode usage (planning.md, spec files, architectural docs) |
 | **0** | No evidence of plan-first approach |
 
 ---
 
-### 1C. Guardrails & Automation (0 - 0.75 points)
+### 1C. Guardrails & Automation (0 - 1 point)
 
 | Score | Criteria |
 |-------|----------|
-| **0.75** | Pre-commit hooks, linting, formatters, tests - all configured via Claude |
-| **0.4** | Some guardrails in place |
+| **1** | Pre-commit hooks, linting, formatters, or tests configured via Claude |
 | **0** | No guardrails beyond default setup |
 
 **What to look for:**
@@ -81,14 +75,14 @@ Did they follow the hackathon constraints?
 
 ---
 
-## Category 2: Codebase Quality (3 points max)
+## Category 2: Codebase Quality (6 points max)
 
-### 2A. Architecture & Structure (0 - 0.9 points)
+### 2A. Architecture & Structure (0 - 2 points)
 
 | Score | Criteria |
 |-------|----------|
-| **0.9** | Clean separation of concerns, proper workspace + submodule structure, logical file organization |
-| **0.45** | Decent structure but some messiness |
+| **2** | Clean separation of concerns, proper workspace + submodule structure, logical file organization |
+| **1** | Decent structure but some messiness |
 | **0** | Chaotic, no clear organization |
 
 **Check:**
@@ -98,12 +92,12 @@ Did they follow the hackathon constraints?
 
 ---
 
-### 2B. Code Quality (0 - 0.9 points)
+### 2B. Code Quality (0 - 2 points)
 
 | Score | Criteria |
 |-------|----------|
-| **0.9** | Clean code, proper error handling, no obvious bugs, follows language conventions |
-| **0.45** | Functional but rough edges |
+| **2** | Clean code, proper error handling, no obvious bugs, follows language conventions |
+| **1** | Functional but rough edges |
 | **0** | Buggy, poor practices, doesn't follow conventions |
 
 **Check:**
@@ -112,23 +106,35 @@ Did they follow the hackathon constraints?
 
 ---
 
-### 2C. Functionality (0 - 0.6 points)
+### 2C. Functionality (0 - 1 point)
 
 | Score | Criteria |
 |-------|----------|
-| **0.6** | App works end-to-end (frontend talks to backend, core features work) |
-| **0.3** | Partially functional |
+| **1** | App works end-to-end (frontend talks to backend, core features work) |
 | **0** | Doesn't run or major broken features |
 
 ---
 
-### 2D. Documentation & Maintainability (0 - 0.6 points)
+### 2D. Documentation (0 - 1 point)
 
 | Score | Criteria |
 |-------|----------|
-| **0.6** | Good README, setup instructions, code comments where needed |
-| **0.3** | Basic README or some documentation |
-| **0** | No documentation |
+| **1** | Good README, setup instructions, code comments where needed |
+| **0** | No documentation or unusable README |
+
+---
+
+## Category 3: Creativity & Presentation (8 points max)
+
+*Scored by everyone*
+
+| Score | Criteria |
+|-------|----------|
+| **8** | Exceptional - wow factor, innovative use of constraints |
+| **6** | Strong - creative approach, well presented |
+| **4** | Good - solid work, decent presentation |
+| **2** | Basic - meets minimum, minimal creativity |
+| **0** | Poor - lacks effort or creativity |
 
 ---
 
@@ -181,15 +187,13 @@ Did they follow the hackathon constraints?
 
 ## Scoring Sheet
 
-| Participant | 1A (0.75) | 1B (1.5) | 1C (0.75) | **Rules (3)** | 2A (0.9) | 2B (0.9) | 2C (0.6) | 2D (0.6) | **Quality (3)** | **Leads Total (6)** |
-|-------------|-----------|----------|-----------|---------------|----------|----------|----------|----------|-----------------|---------------------|
-|             |           |          |           |               |          |          |          |          |                 |                     |
-|             |           |          |           |               |          |          |          |          |                 |                     |
-|             |           |          |           |               |          |          |          |          |                 |                     |
-|             |           |          |           |               |          |          |          |          |                 |                     |
-|             |           |          |           |               |          |          |          |          |                 |                     |
-
-*Note: Creativity & Presentation (4 pts) scored separately by everyone. Final total out of 10.*
+| Participant | 1A (2) | 1B (3) | 1C (1) | **Rules (6)** | 2A (2) | 2B (2) | 2C (1) | 2D (1) | **Quality (6)** | **Creativity (8)** | **TOTAL (20)** |
+|-------------|--------|--------|--------|---------------|--------|--------|--------|--------|-----------------|--------------------|--------------------|
+|             |        |        |        |               |        |        |        |        |                 |                    |                    |
+|             |        |        |        |               |        |        |        |        |                 |                    |                    |
+|             |        |        |        |               |        |        |        |        |                 |                    |                    |
+|             |        |        |        |               |        |        |        |        |                 |                    |                    |
+|             |        |        |        |               |        |        |        |        |                 |                    |                    |
 
 ---
 
