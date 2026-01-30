@@ -187,8 +187,8 @@ Award 1 point for each of the following (binary scoring):
 
 ## Scoring Sheet
 
-| Participant | 1A<br>(2) | 1B<br>(3) | 1C<br>(1) | Rules<br>(6) | 2A<br>(2) | 2B<br>(2) | 2C<br>(1) | 2D<br>(1) | Quality<br>(6) | Creativity<br>(8) | TOTAL<br>(20) |
-|-------------|-----------|-----------|-----------|--------------|-----------|-----------|-----------|-----------|----------------|-------------------|---------------|
+| Participant | Compliance<br>(2) | Sophistication<br>(3) | Guardrails<br>(1) | Rules<br>(6) | Architecture<br>(2) | Code Quality<br>(2) | Functionality<br>(1) | Docs<br>(1) | Quality<br>(6) | Creativity<br>(8) | TOTAL<br>(20) |
+|-------------|-------------------|----------------------|-------------------|--------------|---------------------|---------------------|----------------------|-------------|----------------|-------------------|---------------|
 | agentarium |        |        |        |               |        |        |        |        |                 |                    |                    |
 | antisocial |        |        |        |               |        |        |        |        |                 |                    |                    |
 | anttuii |        |        |        |               |        |        |        |        |                 |                    |                    |
