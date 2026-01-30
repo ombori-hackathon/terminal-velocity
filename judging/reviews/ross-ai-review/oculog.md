@@ -1,363 +1,201 @@
-# Hackathon Judging Report: oculog
+# oculog - Hackathon Judging Report
 
-**Participant:** oculog
-**Reviewed by:** AI Assistant (Ross)
-**Date:** 2026-01-30
+**Reviewer:** ross (AI-assisted) | **Date:** 2026-01-30 | **Score:** 9/12 (+0 bonus)
 
 ---
 
-## Executive Summary
+## Quick Summary
 
-Oculog is an eye condition tracking application for monitoring dry eye disease and MGD (Meibomian Gland Dysfunction). The project demonstrates excellent Claude Code sophistication with sub-agents, planning files, and custom skills. The codebase shows strong architecture and code quality with a full-stack implementation featuring a polished SwiftUI macOS client and FastAPI backend.
-
----
-
-## Summary Scores
-
-| Category | Score | Max | Notes |
-|----------|-------|-----|-------|
-| 1A. Compliance | 2 | 2 | 100% co-authored development commits (excluding initial commits) |
-| 1B. Sophistication | 3 | 3 | Full points: context distribution, sub-agents, and planning files |
-| 1C. Guardrails | 0 | 1 | No pre-commit hooks, linting configs, or test files |
-| **Rules Subtotal** | **5** | **6** | |
-| 2A. Architecture | 2 | 2 | Excellent separation of concerns, clean workspace structure |
-| 2B. Code Quality | 2 | 2 | High quality Swift and Python code with proper patterns |
-| 2C. Functionality | 1 | 1 | Full-stack app with auth, weather integration, condition tracking |
-| 2D. Documentation | 0.5 | 1 | Good CLAUDE.md files but API README is empty |
-| **Quality Subtotal** | **5.5** | **6** | |
-| **TOTAL (Leads)** | **10.5** | **12** | |
+| Category | Score | Notes |
+|----------|-------|-------|
+| 1A. Compliance | 2/2 | 75% co-authored (9/12 commits), initial commits not co-authored |
+| 1B. Sophistication | 2/3 | Good agents and spec file, but context didn't evolve |
+| 1C. Guardrails | 0/1 | No pre-commit hooks, linting, or tests configured |
+| **Rules** | **4/6** | |
+| 2A. Architecture | 2/2 | Excellent structure with proper submodules and separation |
+| 2B. Code Quality | 2/2 | Clean Swift/Python code with proper patterns |
+| 2C. Functionality | 1/1 | Full-stack app with auth, CRUD, weather integration |
+| 2D. Documentation | 0/1 | README in API is empty, CLAUDE.md is template-like |
+| **Quality** | **5/6** | |
+| **BASE TOTAL** | **9/12** | |
+| **Bonus** | **+0** | No feature branches, no PRs, direct pushes to main |
+| **FINAL** | **9/12** | |
 
 ---
 
-## Category 1: Following the Rules (6 points max)
+## Critical Issues (if any)
 
-### 1A. Compliance (2 points max)
-
-#### Co-Authoring Analysis - Detailed Breakdown
-
-**Workspace Repository (`oculog-ws/`):**
-
-| Commit Hash | Message | Excluded? | Co-Authored? |
-|-------------|---------|-----------|--------------|
-| d119dc6 | Initial workspace setup with submodules | Yes (Initial) | No |
-| 79aaf36 | Update submodules and add splash screen spec | No | Yes |
-| 39502dd | Update submodules: city field and UI improvements | No | Yes |
-| 6e18aed | Update submodules: UI polish and sorting support | No | Yes |
-
-**Frontend Repository (`apps/macos-client/`):**
-
-| Commit Hash | Message | Excluded? | Co-Authored? |
-|-------------|---------|-----------|--------------|
-| cdf1482 | Initial SwiftUI app setup | Yes (Initial) | No |
-| 0a3d5ad | feat: Add splash screen with animated eye | No | Yes |
-| ea4ba3d | feat: Add city field and UI accessibility improvements | No | Yes |
-| e175edf | feat: UI polish and accessibility improvements | No | Yes |
-
-**Backend Repository (`services/api/`):**
-
-| Commit Hash | Message | Excluded? | Co-Authored? |
-|-------------|---------|-----------|--------------|
-| 76d86de | Initial FastAPI backend setup | Yes (Initial) | No |
-| b073b49 | feat: Add database-backed items endpoint | No | Yes |
-| 17baed9 | feat: Add city field and full condition log tracking | No | Yes |
-| 26f184f | feat: Add sorting support for condition logs | No | Yes |
-
-#### Summary Table
-
-| Repository | Total Commits | Merges | Initial | Development | Co-Authored | Percentage |
-|------------|---------------|--------|---------|-------------|-------------|------------|
-| Workspace | 4 | 0 | 1 | 3 | 3 | **100%** |
-| Frontend | 4 | 0 | 1 | 3 | 3 | **100%** |
-| Backend | 4 | 0 | 1 | 3 | 3 | **100%** |
-| **TOTAL** | **12** | **0** | **3** | **9** | **9** | **100%** |
-
-**Score: 2/2** - 100% of development commits are co-authored with Claude.
+> - No feature branches used - all direct pushes to main in all repos
+> - No PRs created via gh CLI despite workflow documented in CLAUDE.md
+> - No test files despite TDD mentioned as key rule
+> - CLAUDE.md never evolved from initial commit (checked git history)
 
 ---
 
-### 1B. Claude Code Sophistication (3 points max)
+## Points Lost
 
-#### Context Evolution & Distribution (1/1)
+| Category | Lost | Reason |
+|----------|------|--------|
+| [1B] | -1 | Context evolution: CLAUDE.md unchanged since initial commit, no learnings added |
+| [1C] | -1 | No guardrails: no pre-commit hooks, no linting config, no test files |
+| [2D] | -1 | Empty README.md in API, CLAUDE.md reads like template |
+| [Bonus] | -2 | No feature branches (-1), no PRs (-0.5), no gh CLI evidence (-0.5) |
 
-**Evidence Found:**
-- Lean root `CLAUDE.md` with clear project overview and references to agents
-- 6 specialized agents in `.claude/agents/`:
-  - `architect.md` - System design, API contracts (opus model)
-  - `debugger.md` - Issue investigation (sonnet model)
-  - `python-coder.md` - FastAPI backend development (sonnet model)
-  - `reviewer.md` - Code review (sonnet model)
-  - `swift-coder.md` - Swift client development (sonnet model)
-  - `tester.md` - TDD workflow (sonnet model)
-- Custom skill in `.claude/skills/feature/SKILL.md` with detailed workflow
-- Submodule-specific CLAUDE.md files for frontend and backend
-
-**Note:** Git history shows CLAUDE.md files were only modified in initial commits; however, the context is well-distributed and project-specific with clear agent delegation patterns.
-
-**Score: 1/1**
-
-#### Sub-agents / Multi-agent Usage (1/1)
-
-**Evidence Found:**
-```
-.claude/agents/
-├── architect.md    (opus model - for design decisions)
-├── debugger.md     (sonnet model)
-├── python-coder.md (sonnet model)
-├── reviewer.md     (sonnet model)
-├── swift-coder.md  (sonnet model)
-└── tester.md       (sonnet model)
-```
-
-Each agent has:
-- Frontmatter with name, description, tools, and model specification
-- Clear scope and responsibilities
-- Workflow instructions
-- Codebase-specific context
-
-**Score: 1/1**
-
-#### Planning Files / Spec Files (1/1)
-
-**Evidence Found:**
-- `specs/` folder with planning files:
-  - `specs/README.md` - Naming conventions and template reference
-  - `specs/_template.md` - Spec template
-  - `specs/2026-01-29-splash-screen-eye-animation.md` - Detailed feature spec including:
-    - Summary, trigger, expected result, edge cases
-    - Technical design with file modifications
-    - ASCII art mockup for animation design
-    - Implementation plan with checkboxes
-    - Verification steps
-- `/feature` skill enforces plan-mode-first workflow
-
-**Score: 1/1**
-
-**Sophistication Total: 3/3**
+**Total Lost: 5 points**
 
 ---
 
-### 1C. Guardrails & Automation (1 point max)
+## Detailed Analysis
 
-**Evidence Found:**
-- Docker Compose for PostgreSQL database
-- Test dependencies configured in `pyproject.toml`:
-  - `pytest>=8.0.0`
-  - `pytest-asyncio>=0.23.0`
-- Test agent defined with TDD workflow instructions
+### 1A. Compliance (2/2)
 
-**Not Found:**
-- `.pre-commit-config.yaml`
-- `.swiftlint.yml` or `ruff.toml`
-- CI/CD workflows (`.github/workflows/`)
-- Actual test files in `tests/` directories
+**Co-authoring by Repo:**
 
-**Score: 0/1** - Test framework configured but no actual tests or pre-commit hooks implemented.
+| Repo | Dev Commits | Co-authored | Rate |
+|------|-------------|-------------|------|
+| Workspace | 4 | 3 | 75% |
+| Frontend | 4 | 3 | 75% |
+| Backend | 4 | 3 | 75% |
+| **Total** | **12** | **9** | **75%** |
 
----
+Initial setup commits in all repos lack co-authoring. All subsequent feature commits properly co-authored with Claude. Rate meets threshold for full score.
 
-### Category 1 Total: 5/6
+**Git Workflow (Bonus):**
 
----
+| Practice | Status | Bonus |
+|----------|--------|-------|
+| Feature branches | No - all on main | +0 |
+| PRs with descriptions | No - direct pushes | +0 |
+| gh CLI usage | No evidence | +0 |
+| **Bonus Total** | | **+0** |
 
-## Category 2: Codebase Quality (6 points max)
+Despite CLAUDE.md documenting proper git workflow with feature branches and `gh pr create`, no evidence this was followed. All commits pushed directly to main in all three repos.
 
-### 2A. Architecture & Structure (2 points max)
+### 1B. Sophistication (2/3)
 
-**Workspace Structure:**
+- **Context Evolution (0/1):** CLAUDE.md was created in initial commit and never modified (verified via `git log --follow -p -- CLAUDE.md`). The file mentions "Evolve the config" but this wasn't practiced. Submodule CLAUDE.md files also appear unchanged.
+
+- **Sub-agents (1/1):** 6 custom agents configured with specific roles:
+  - `/architect` - System design with opus model
+  - `/swift-coder` - Swift development
+  - `/python-coder` - FastAPI development
+  - `/reviewer` - Code review
+  - `/debugger` - Issue investigation
+  - `/tester` - Test-driven development
+  Each has clear responsibilities and codebase context.
+
+- **Planning Files (1/1):** Excellent spec file at `specs/2026-01-29-splash-screen-eye-animation.md` with:
+  - Clear requirements and edge cases
+  - Technical design with file structure
+  - ASCII art mockup of UI
+  - Implementation checklist
+  - Verification steps
+
+### 1C. Guardrails (0/1)
+
+- [ ] Pre-commit hooks - None found
+- [ ] Linting config - No swiftlint, ruff, or other linting configuration
+- [ ] Tests - No test directories or test files in either repo despite pytest in dev dependencies
+- [ ] CI/CD - No GitHub workflows
+
+**Guardrails configured: 0/4 (need 2+ for full point)**
+
+The pyproject.toml includes pytest in dev dependencies but no actual tests exist.
+
+### 2A. Architecture (2/2)
+
+Excellent workspace structure:
+
 ```
 oculog-ws/
 ├── .claude/
-│   ├── agents/      (6 specialized agents)
-│   └── skills/      (feature workflow)
+│   ├── agents/ (6 agent definitions)
+│   └── skills/feature/SKILL.md
 ├── apps/
-│   └── macos-client/ (Swift submodule - 25 source files)
+│   └── macos-client/ (SwiftUI submodule)
+│       ├── Sources/ (24 Swift files)
+│       ├── Resources/Assets.xcassets/
+│       └── CLAUDE.md
 ├── services/
-│   └── api/         (Python submodule)
-├── specs/           (feature specifications)
+│   └── api/ (FastAPI submodule)
+│       ├── app/
+│       │   ├── models/
+│       │   ├── schemas/
+│       │   ├── routers/
+│       │   └── services/
+│       ├── alembic/ (7 migrations)
+│       └── CLAUDE.md
+├── specs/
 ├── docker-compose.yml
 └── CLAUDE.md
 ```
 
-**Backend Architecture:**
-- `app/models/` - SQLAlchemy ORM models
-- `app/schemas/` - Pydantic request/response schemas
-- `app/routers/` - API route handlers
-- `app/services/` - Business logic (weather service)
-- `app/core/` - Security utilities
-- `alembic/` - Database migrations (7 migration files)
+Clean separation between Swift frontend and Python backend with proper submodule structure.
 
-**Frontend Architecture:**
-- 25 Swift source files with clear separation
-- Models, Views, State management, Managers
-- Clean SwiftUI patterns with proper state management
+### 2B. Code Quality (2/2)
 
-**Score: 2/2**
+**Swift:**
+- Proper SwiftUI patterns with `@StateObject`, `@ObservedObject`, `@Published`
+- Clean async/await usage for network calls
+- Combine framework for reactive location updates
+- Proper optionals handling
+- Clear separation (AppState, AuthState, WeatherState, LocationManager)
+- Good UI polish with animations, loading states, error handling
 
----
+**Python:**
+- FastAPI with proper router organization
+- Pydantic schemas for validation
+- SQLAlchemy 2.0 with typed mapped columns
+- Alembic migrations properly configured
+- Custom exception handling with unified error format
+- JWT authentication implemented
+- Type hints throughout
 
-### 2B. Code Quality (2 points max)
+### 2C. Functionality (1/1)
 
-**Swift Code Quality:**
-- Proper use of `@StateObject`, `@ObservedObject`, `@Published`
-- `@MainActor` for thread safety
-- Clean async/await patterns with `Task`
-- Well-structured SwiftUI views with proper composition
-- Custom shapes (`IrisRing`, `ScanLines`) with proper `animatableData`
-- AppStorage for preferences persistence
-- Combine integration for reactive updates
-- Proper error handling with custom `APIError` types
-
-**Python Code Quality:**
-- Type hints throughout (Python 3.12+ union syntax)
-- Pydantic schemas with proper validation (`Field`, `ge`, `le`, `max_length`)
-- SQLAlchemy 2.0 patterns
-- Custom exception handling with `AppException` class
-- Proper HTTP status codes and error responses
-- FastAPI dependency injection (`Depends`)
-- PostgreSQL-specific error handling (integrity constraints, pgcode)
-
-**Score: 2/2**
-
----
-
-### 2C. Functionality (1 point max)
-
-**Backend Features:**
+Full-stack application that appears complete:
 - User authentication (signup, login, JWT tokens)
-- Condition log CRUD with pagination and sorting
-- Weather data integration
-- Database-backed with PostgreSQL and Alembic migrations
+- CRUD for condition logs with pagination and sorting
+- Weather integration
+- Eye condition tracking with comprehensive fields
+- Splash screen with animated eye graphic
+- Chart visualization for rating trends
+- Docker Compose for PostgreSQL
 
-**Frontend Features:**
-- Login/signup flow with Keychain storage
-- Animated splash screen with eye theme
-- Main dashboard with chart and logs table
-- Full condition log form with extensive fields
-- Date filtering (presets + custom)
-- Weather display from device location
-- Sorting, pagination, resizable UI elements
+### 2D. Documentation (0/1)
 
-**Score: 1/1**
-
----
-
-### 2D. Documentation (1 point max)
-
-**Evidence Found:**
-- Workspace CLAUDE.md with quick start commands, project structure, development workflow
-- Submodule CLAUDE.md files with commands and architecture
-- Feature specs with detailed documentation
-- Agent files serve as workflow documentation
-
-**Limitation:**
-- Backend README.md is essentially empty (1 line)
-- No standalone user-facing README
-
-**Score: 0.5/1**
+- `services/api/README.md` is empty (1 blank line)
+- Workspace CLAUDE.md is comprehensive but template-like with no project-specific learnings
+- Setup instructions exist but spread across multiple CLAUDE.md files
+- No user-facing documentation or API usage examples
 
 ---
 
-### Category 2 Total: 5.5/6
+## Highlights
+
+1. **Rich Feature Set** - Full authentication, weather integration, and comprehensive eye condition tracking with many fields (symptoms, lifestyle factors, treatments)
+2. **Animated UI** - Impressive eye animation splash screen, gradient charts, loading indicators
+3. **Well-Structured Agents** - 6 specialized agents with clear responsibilities and appropriate model selection (opus for architect, sonnet for coders)
+
+## Concerns
+
+1. **Git Workflow Ignored** - Despite documenting proper git workflow in CLAUDE.md, no feature branches or PRs were used
+2. **No Tests** - TDD mentioned as key rule but no test files exist
+3. **Static Context** - CLAUDE.md files never evolved with learnings despite explicit instructions to do so
 
 ---
 
-## Category 3: Creativity & Presentation (8 points max)
+## Creativity Notes
 
-*To be scored by everyone*
+[Observations for human judges - not scored]
 
-**Notable Creative Elements:**
-- Eye-themed application (Oculog = ocular + log) for dry eye tracking
-- Custom animated eye splash screen with:
-  - Rotating iris rings (clockwise/counter-clockwise)
-  - Pulsing pupil (dilate/contract)
-  - Scanning lines effect
-  - Shimmer overlay
-- Comprehensive health tracking model (symptoms, lifestyle, treatments, environment)
-- Weather integration for environmental factor correlation
-- Location-based city detection for logs
-- Polished UI with accessibility considerations (larger controls, graphical date picker)
-- Animated chart with spring transitions
-- Resizable divider between chart and table
+- **Oculog** is an eye condition tracking app for dry eye disease and MGD (Meibomian Gland Dysfunction)
+- Interesting health-tech concept with weather correlation tracking
+- Animated "eye" splash screen with pupil/iris effects adds visual polish
+- Comprehensive data model captures symptoms, lifestyle factors, treatments, and environmental conditions
+- City/location tracking to correlate eye conditions with geography/weather
+- Charts for visualizing rating trends over time
 
 ---
 
-## Final Scores Summary
-
-| Category | Points | Score |
-|----------|--------|-------|
-| 1A. Compliance | 2 | 2 |
-| 1B. Sophistication | 3 | 3 |
-| 1C. Guardrails | 1 | 0 |
-| **Following the Rules** | **6** | **5** |
-| 2A. Architecture | 2 | 2 |
-| 2B. Code Quality | 2 | 2 |
-| 2C. Functionality | 1 | 1 |
-| 2D. Documentation | 1 | 0.5 |
-| **Codebase Quality** | **6** | **5.5** |
-| 3. Creativity & Presentation | 8 | TBD |
-| **TOTAL** | **20** | **10.5 + Creativity** |
-
----
-
-## Strengths
-
-1. **Perfect Claude Code compliance** - 100% co-authoring on all development commits
-2. **Excellent sophistication** - Full use of agents, skills, and planning files with model-appropriate assignments
-3. **Strong architecture** - Clean separation of concerns with proper workspace/submodule structure
-4. **High code quality** - Well-written Swift and Python code with proper patterns
-5. **Creative concept** - Eye health tracking with beautiful animated UI
-6. **Unified error handling** - Both Swift and Python implement matching error type enums
-
----
-
-## Areas for Improvement
-
-1. **Guardrails** - Add pre-commit hooks, linting configuration, and actual test files
-2. **Documentation** - Create proper README files for the project and submodules
-3. **Configuration** - Hardcoded `localhost:8000` should be configurable
-
----
-
-## Code Snippets of Note
-
-**Eye Animation View (Custom SwiftUI Animation):**
-```swift
-// Outer ring rotation (slow, mesmerizing)
-withAnimation(.linear(duration: 20).repeatForever(autoreverses: false)) {
-    outerRotation = 360
-}
-
-// Pupil pulsing (dilate/contract)
-withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
-    pupilScale = 1.15
-}
-```
-
-**Unified Error Handling (Python):**
-```python
-class AppException(HTTPException):
-    """Base exception with unified error format"""
-    def __init__(
-        self,
-        status_code: int,
-        error_type: ErrorType,
-        message: str,
-        data: dict[str, Any] | None = None,
-    ):
-        self.error_type = error_type
-        self.message = message
-        self.data = data
-```
-
----
-
-## Files Reviewed
-
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/CLAUDE.md`
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/apps/macos-client/CLAUDE.md`
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/services/api/CLAUDE.md`
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/.claude/agents/*.md` (6 files)
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/.claude/skills/feature/SKILL.md`
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/specs/2026-01-29-splash-screen-eye-animation.md`
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/apps/macos-client/Sources/*.swift` (25 files)
-- `/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/oculog-ws/services/api/app/**/*.py` (multiple files)
+*Report generated using template v1.0*

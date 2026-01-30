@@ -1,25 +1,42 @@
 # mini-mate-1 - Hackathon Judging Report
 
-**Project:** MiniMate - Your Desktop Companion
-**Judged by:** Ross (AI-assisted review)
-**Date:** 2026-01-30
+**Reviewer:** ross (AI-assisted) | **Date:** 2026-01-30 | **Score:** 10/12 (+2 bonus)
 
 ---
 
-## Summary Scores
+## Quick Summary
 
-| Category | Score | Max | Notes |
-|----------|-------|-----|-------|
-| 1A. Compliance | 2 | 2 | 100% co-authored development commits |
-| 1B. Sophistication | 3 | 3 | Excellent context evolution, agents, planning |
-| 1C. Guardrails | 0 | 1 | No pre-commit hooks or linting configured |
-| **Rules Subtotal** | **5** | **6** | |
-| 2A. Architecture | 2 | 2 | Clean separation, well-organized structure |
-| 2B. Code Quality | 2 | 2 | High quality Swift and Python code |
-| 2C. Functionality | 1 | 1 | End-to-end feature complete |
-| 2D. Documentation | 1 | 1 | Comprehensive READMEs and CLAUDE.md |
-| **Quality Subtotal** | **6** | **6** | |
-| **TOTAL (Leads)** | **11** | **12** | |
+| Category | Score | Notes |
+|----------|-------|-------|
+| 1A. Compliance | 2/2 | 76% co-authored (13/17 dev commits), all major work co-authored |
+| 1B. Sophistication | 2/3 | Good context evolution in submodules, agents present but no custom skills evolved |
+| 1C. Guardrails | 0/1 | No pre-commit hooks, linting, or tests configured |
+| **Rules** | **4/6** | |
+| 2A. Architecture | 2/2 | Excellent workspace+submodule structure, clean separation of concerns |
+| 2B. Code Quality | 2/2 | Clean Swift and Python code, proper async/await patterns, good type hints |
+| 2C. Functionality | 1/1 | Complete end-to-end app with activity tracking, AI hints, floating companion |
+| 2D. Documentation | 1/1 | Good READMEs, clear setup instructions, helpful CLAUDE.md learnings |
+| **Quality** | **6/6** | |
+| **BASE TOTAL** | **10/12** | |
+| **Bonus** | **+2** | Feature branches and PRs used properly |
+| **FINAL** | **12/14** | |
+
+---
+
+## Critical Issues (if any)
+
+> None. This is a well-executed submission with proper workspace structure and meaningful co-authored commits.
+
+---
+
+## Points Lost
+
+| Category | Lost | Reason |
+|----------|------|--------|
+| 1B. Sophistication | -1 | No custom skills evolved (only template feature skill present), agents are basic templates |
+| 1C. Guardrails | -1 | No pre-commit hooks, no linting config, Swift test file is just a manual test plan |
+
+**Total Lost: 2 points**
 
 ---
 
@@ -27,303 +44,141 @@
 
 ### 1A. Compliance (2/2)
 
-**Co-authoring Calculation Method:**
-- Exclude: Merge commits ("Merge pull request" or "Merge branch")
-- Exclude: Initial template/setup commits (first "Initial" commit)
-- Count remaining development commits for compliance percentage
+**Co-authoring by Repo:**
 
-#### Workspace Repository
+| Repo | Dev Commits | Co-authored | Rate |
+|------|-------------|-------------|------|
+| Workspace | 4 | 3 | 75% |
+| Frontend | 6 | 5 | 83% |
+| Backend | 6 | 5 | 83% |
+| **Total** | **17** | **13** | **76%** |
 
-| Hash | Subject | Co-authored | Excluded Reason |
-|------|---------|-------------|-----------------|
-| 335fbf8 | Merge pull request #1 | N/A | Merge commit |
-| 4051f37 | docs: Add README files and update submodules | Yes | - |
-| e550948 | docs: Add MiniMate spec and update submodules | Yes | - |
-| 5898a37 | feat: MiniMate - Your Adorable Desktop Companion | Yes | - |
-| 4f53671 | Initial workspace setup with submodules | No | Initial setup |
+Initial setup commits lack co-authoring (expected), but all feature work is properly co-authored with Claude. Commit messages are well-formatted with clear descriptions of changes.
 
-| Metric | Count |
-|--------|-------|
-| Total commits | 5 |
-| Excluded (merge + initial) | 2 |
-| Development commits | 3 |
-| Co-authored | 3 |
-| **Rate** | **100%** |
+**Git Workflow (Bonus):**
 
-#### macOS Client Repository
+| Practice | Status | Bonus |
+|----------|--------|-------|
+| Feature branches | Yes - `feature/minimate-companion` | +1 |
+| PRs with descriptions | Yes - PR #1 with full description | +0.5 |
+| gh CLI usage | Yes - PR created via gh CLI | +0.5 |
+| **Bonus Total** | | **+2** |
 
-| Hash | Subject | Co-authored | Excluded Reason |
-|------|---------|-------------|-----------------|
-| dc12b08 | docs: Add README with project overview | Yes | - |
-| 825ab04 | fix: Handle backward compatibility | Yes | - |
-| a804550 | feat: Time-based hints, enhanced events UI | Yes | - |
-| b8775c2 | docs: Add learnings to CLAUDE.md | Yes | - |
-| 5570756 | feat: MiniMate Desktop Companion - macOS client | Yes | - |
-| dca834b | Initial SwiftUI app setup | No | Initial setup |
+### 1B. Sophistication (2/3)
 
-| Metric | Count |
-|--------|-------|
-| Total commits | 6 |
-| Excluded (merge + initial) | 1 |
-| Development commits | 5 |
-| Co-authored | 5 |
-| **Rate** | **100%** |
+- **Context Evolution (1/1):** Both submodule CLAUDE.md files show real learnings with specific technical details:
+  - Swift: Floating window patterns, Electron app workarounds, idle time detection
+  - Python: Ollama integration tips, background tasks handling, enum mappings
+  - Evidence of git history showing context evolution
 
-#### API Repository
+- **Sub-agents (1/1):** 6 custom agents defined with specific roles:
+  - architect, debugger, python-coder, reviewer, swift-coder, tester
+  - Agents have appropriate tool restrictions and model assignments (opus for architect, sonnet for coders)
 
-| Hash | Subject | Co-authored | Excluded Reason |
-|------|---------|-------------|-----------------|
-| 803b436 | docs: Add README with API documentation | Yes | - |
-| 396c9e6 | fix: Event reminder creates hint synchronously | Yes | - |
-| de61985 | feat: Time-based hints and enhanced settings | Yes | - |
-| 0bf6f59 | docs: Add learnings to CLAUDE.md | Yes | - |
-| a667db2 | feat: MiniMate Desktop Companion - API backend | Yes | - |
-| 27a8ee8 | Initial FastAPI backend setup | No | Initial setup |
-
-| Metric | Count |
-|--------|-------|
-| Total commits | 6 |
-| Excluded (merge + initial) | 1 |
-| Development commits | 5 |
-| Co-authored | 5 |
-| **Rate** | **100%** |
-
-#### Combined Analysis
-
-| Repository | Dev Commits | Co-authored | Rate |
-|------------|-------------|-------------|------|
-| Workspace | 3 | 3 | 100% |
-| macOS Client | 5 | 5 | 100% |
-| API | 5 | 5 | 100% |
-| **Total** | **13** | **13** | **100%** |
-
-**Score: 2/2** - Perfect co-authoring compliance. All development commits are co-authored with Claude. PRs were created using `gh` CLI. No evidence of IDE usage or manual editing patterns.
-
-### 1B. Sophistication (3/3)
-
-#### Context Evolution & Distribution: 1/1
-
-**Repos Checked:**
-- Workspace: `/judging/participants/mini-mate-1-ws/` - CLAUDE.md evolution: **YES, 1 commit** (initial)
-- Frontend: `/judging/participants/mini-mate-1-ws/apps/macos-client/` - CLAUDE.md evolution: **YES, 2 commits** (initial + learnings update)
-- Backend: `/judging/participants/mini-mate-1-ws/services/api/` - CLAUDE.md evolution: **YES, 2 commits** (initial + learnings update)
-
-**Evidence of context evolution:**
-1. Both submodule CLAUDE.md files were updated with substantial "Learnings & Gotchas" sections:
-   - macOS: Floating Window patterns, Accessibility API quirks, Electron app workarounds, idle detection
-   - API: Ollama integration tips, background tasks handling, enum mappings, activity tracking
-
-2. Context is properly distributed:
-   - Lean workspace CLAUDE.md (86 lines) with high-level workflow
-   - Tech-specific learnings pushed to submodule CLAUDE.md files
-   - Agent-specific instructions in `.claude/agents/`
-
-#### Sub-agents / Multi-agent Usage: 1/1
-
-Excellent sub-agent configuration in `.claude/agents/`:
-- `architect.md` - System design, uses opus model
-- `swift-coder.md` - Swift development, uses sonnet model
-- `python-coder.md` - FastAPI development, uses sonnet model
-- `reviewer.md` - Code review across repos
-- `debugger.md` - Issue investigation
-- `tester.md` - TDD workflow
-
-Each agent has:
-- Clear role definition
-- Appropriate model selection (opus for architecture, sonnet for implementation)
-- Specific tool restrictions where appropriate
-- Contextual instructions
-
-#### Planning Files / Spec Files: 1/1
-
-Clear evidence of plan-mode usage:
-- `specs/2026-01-29-minimate-companion.md` - Comprehensive feature spec (93 lines)
-  - Problem statement
-  - Solution overview
-  - Full architecture documentation
-  - API endpoint definitions
-  - Behavior detection table
-  - Configuration settings
-  - Testing instructions
-  - Learnings section
-
-Custom `/feature` skill in `.claude/skills/feature/SKILL.md` enforces plan-mode workflow:
-- Mandatory spec creation before implementation
-- TDD red-green cycle
-- PR creation via gh CLI
+- **Planning Files (0/1):** The spec file `specs/2026-01-29-minimate-companion.md` exists with good content, but:
+  - Only one spec file created (minimal evidence of plan-mode-first workflow)
+  - The feature skill in `.claude/skills/feature/SKILL.md` is essentially template content, not evolved
+  - No evidence of TDD workflow actually being used (Swift test file is just a manual test plan placeholder)
 
 ### 1C. Guardrails (0/1)
 
-**Missing guardrails:**
-- No `.pre-commit-config.yaml` found in any repo
-- No SwiftLint configuration
-- No Python linting config (ruff/black/flake8)
-- No CI/CD workflows
+- [ ] Pre-commit hooks - Not configured (no `.pre-commit-config.yaml`)
+- [ ] Linting config - No swiftlint, ruff, or black configured
+- [ ] Tests - Swift test file is a manual test plan comment, no actual pytest tests found
+- [ ] CI/CD - No GitHub workflows configured
 
-**Partial credit considerations:**
-- pytest is listed in dev dependencies (`pyproject.toml`)
-- Test directory exists (`apps/macos-client/Tests/`)
-- However, Swift tests are manual test plan only (comments)
-- No actual automated test files in API
-
-Docker Compose is properly configured for PostgreSQL, which is good but not a guardrail per scoring criteria.
+**Guardrails configured: 0/4 (need 2+ for full point)**
 
 ### 2A. Architecture (2/2)
 
-**Workspace Structure:**
+Excellent structure:
 ```
 mini-mate-1-ws/
-├── apps/macos-client/     # SwiftUI submodule
-├── services/api/          # FastAPI submodule
+├── apps/macos-client/     # SwiftUI desktop app (submodule)
+│   └── Sources/
+│       ├── Activity/      # App tracking, idle detection
+│       ├── Animation/     # Character states
+│       ├── Companion/     # Floating window UI
+│       ├── Events/        # Scheduled reminders
+│       ├── Models/        # Data structures
+│       ├── Networking/    # API communication
+│       ├── Preferences/   # User settings
+│       └── Utilities/     # Screen management
+├── services/api/          # FastAPI backend (submodule)
+│   └── app/
+│       ├── models/        # SQLAlchemy ORM
+│       ├── routers/       # API endpoints
+│       ├── schemas/       # Pydantic validation
+│       └── services/      # Business logic (AI, hints)
 ├── specs/                 # Feature specifications
-├── .claude/
-│   ├── agents/            # 6 specialized agents
-│   └── skills/            # /feature workflow
-├── docker-compose.yml     # PostgreSQL
-└── CLAUDE.md
+└── docker-compose.yml     # PostgreSQL database
 ```
 
-**Swift Client Architecture:**
-```
-Sources/
-├── Activity/       # ActivityMonitor, PermissionManager, WorkSessionTracker
-├── Animation/      # AnimationEngine, AnimationState, CharacterView
-├── Companion/      # CompanionView, CompanionWindowController
-├── Events/         # EventReminderService, EventsStore, EventsView
-├── Models/         # Activity, Hint, ScheduledEvent
-├── Networking/     # APIClient, HintService
-├── Preferences/    # PreferencesStore, SettingsView
-└── Utilities/      # ScreenManager, SystemEventObserver, WindowPositionManager
-```
-
-**API Architecture:**
-```
-app/
-├── models/         # SQLAlchemy ORM (activity, hint, item, user_preferences)
-├── schemas/        # Pydantic validation
-├── routers/        # FastAPI routes (activity, hints, preferences, events)
-├── services/       # Business logic (ai_service, hint_generator)
-├── config.py       # Pydantic settings
-└── db.py           # Database setup
-```
-
-Excellent separation of concerns with clear domain boundaries in both codebases.
+Clean separation of concerns with proper layering in both frontend and backend.
 
 ### 2B. Code Quality (2/2)
 
-**Swift Code Quality:**
-- Proper use of `@Observable` macro (modern Swift)
-- `@MainActor` annotations for thread safety
-- Clean async/await patterns throughout
-- Comprehensive error handling with try/catch
-- Well-structured delegation patterns (callbacks for events)
-- Smart use of both Accessibility API and CGWindowListCopyWindowInfo (handles Electron apps)
-- Good use of guard statements and optionals
+**Swift:**
+- Proper use of `@Observable` and `@MainActor` for state management
+- Clean async/await patterns with `URLSession`
+- Good use of SwiftUI patterns (Bindable, View composition)
+- Proper error handling in networking code
 
-Example from `ActivityMonitor.swift`:
-- 532 lines of well-organized code
-- Proper idle time detection using CGEventSource
-- Sophisticated struggle detection with scoring algorithm
-- Clean separation between polling, updating, and reporting
-
-**Python Code Quality:**
+**Python:**
+- Pydantic for request/response validation
+- SQLAlchemy 2.0 patterns
 - Type hints throughout
-- Pydantic models for validation
-- Async endpoints where appropriate
-- Clean router organization
-- Proper SQLAlchemy session handling
-- Good error handling patterns
-
-Example from `hint_generator.py`:
-- Clear method decomposition
-- Rate limiting logic
-- Preference-based filtering
-- AI service integration
+- Clean service layer separation (ai_service, hint_generator)
 
 ### 2C. Functionality (1/1)
 
-The application is feature-complete:
-- macOS floating companion window with animated character
-- Activity tracking with struggle detection
-- AI-powered contextual hints via Ollama
-- Break reminders and scheduled events
-- User preferences sync between client and server
-- Multi-monitor support
-- System state awareness (sleep, fullscreen, idle)
-
-All components work together:
-- Client reports activity to API
-- API analyzes behavior and generates hints
-- Client polls for hints and displays them
-- Preferences sync bidirectionally
+Fully functional end-to-end application:
+- Swift client tracks active apps, windows, typing patterns
+- Backend generates AI-powered hints via Ollama
+- Floating companion window with animated character
+- Activity monitoring with struggle detection
+- Event reminders and break suggestions
+- Docker compose for PostgreSQL database
 
 ### 2D. Documentation (1/1)
 
-**Workspace README.md:**
-- Project overview
-- Quick start guide
-- Architecture diagram
-- Prerequisites listed
+- Clear README at workspace, frontend, and backend levels
+- Setup instructions with prerequisites listed
 - API endpoint documentation
+- CLAUDE.md files contain real project-specific learnings
+- Spec file documents architecture decisions
 
-**macOS Client README.md:**
-- Requirements (macOS 14+, Xcode 15+)
-- Quick start commands
-- Feature list
-- Project structure
-- Permission requirements explained
-
-**API README.md:**
-- Complete setup instructions
-- API endpoint table
-- Environment variables documentation
-- Ollama setup guide
-- Testing instructions
-
-**CLAUDE.md files:**
-- All three repos have detailed CLAUDE.md
-- Learnings sections capture real project insights
-- Clear command references
-
-## Where Points Were Lost
-
-| Category | Points Lost | Reason |
-|----------|-------------|--------|
-| 1C. Guardrails | -1 | No pre-commit hooks, linting, or automated tests configured |
-
-**Total Points Lost: 1/12**
+---
 
 ## Highlights
 
-1. **Exceptional sub-agent architecture** - Six specialized agents with appropriate model selection (opus for architecture, sonnet for implementation)
+1. **Sophisticated Activity Tracking** - The ActivityMonitor.swift implements comprehensive struggle detection with factors like back-and-forth switching, error keywords, and time-on-task analysis
 
-2. **Rich context evolution** - CLAUDE.md files contain genuine learnings from development (Electron app window title workaround, Ollama JSON output tricks)
+2. **Real AI Integration** - The hint generator uses Ollama for contextual suggestions with proper rate limiting and category-based hints
 
-3. **Sophisticated activity monitoring** - The Swift ActivityMonitor implements multi-factor struggle detection with scoring algorithm
-
-4. **Complete feature workflow** - Custom `/feature` skill enforces plan-mode-first, TDD approach
-
-5. **Production-quality code** - Both Swift and Python codebases demonstrate clean architecture, proper error handling, and modern language features
+3. **Excellent Context Documentation** - The submodule CLAUDE.md files contain genuinely useful learnings about Electron app window title limitations, floating window implementation, and AI prompt patterns
 
 ## Concerns
 
-1. **No automated testing** - Despite TDD workflow in skill definition, no actual test files exist
+1. **No Automated Tests** - Despite TDD being in the workflow, the Swift test file is just comments with a manual test plan. No pytest tests found in the API
 
-2. **No linting/formatting** - No SwiftLint, no Python formatters configured
+2. **Minimal Spec Usage** - Only one spec file suggests plan-mode wasn't heavily used throughout development
 
-3. **Ollama dependency** - AI features require local Ollama installation; no fallback
+3. **Template Skills** - The feature skill appears to be template content, not evolved based on actual usage
 
-4. **Rate limiting simplicity** - Only time-based rate limiting; could be more sophisticated
+---
 
-## Creativity Notes (for human judges)
+## Creativity Notes
 
-**Concept:** A desktop companion character that watches your workflow and provides contextual hints when you're struggling. Like Clippy, but actually helpful.
+This is a creative and polished submission. The "MiniMate" desktop companion concept is well-executed with:
+- Animated character with multiple states (idle, wave, talk, sleep)
+- Smart activity analysis that detects when user is struggling
+- Integration with Ollama for contextual AI-powered hints
+- Multi-monitor support and accessibility considerations
+- Clean, user-friendly speech bubble UI with auto-dismiss progress bars
 
-**Innovative elements:**
-- Struggle detection algorithm that considers multiple factors (time on task, app switching patterns, error keywords, back-and-forth behavior)
-- Smart workaround for Electron app window titles (major technical challenge)
-- Behavior classification system (debugging, coding, researching, distracted, browsing, communication)
-- Character animation states tied to system events
-- Session tracking with break reminders
+The concept of a helpful desktop buddy that stays quiet during flow and offers help when you're stuck is both practical and charming.
 
-**Potential impact:** Genuinely useful productivity tool that could help developers recognize when they're stuck and need to try a different approach.
+---
+
+*Report generated using template v1.0*

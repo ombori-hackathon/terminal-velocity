@@ -22,6 +22,8 @@ Before scoring each participant, verify the submission follows hackathon rules:
 
 Non-compliant submissions should receive reduced scores.
 
+---
+
 ## Workflow
 
 ### Step 1: Setup
@@ -32,15 +34,16 @@ Non-compliant submissions should receive reduced scores.
 Read the list of participants from `judging/participants/` directory.
 Each participant folder is named `[participant-name]-ws`.
 
-### Step 3: Spawn Parallel Agents
+### Step 3: Spawn Parallel Judging Agents
 For EACH participant, spawn a general-purpose agent using the Task tool.
 **CRITICAL: Spawn ALL agents in a SINGLE message with multiple Task tool calls to run them in parallel.**
 
-Each agent should:
-1. Analyze the participant repo at `judging/participants/[name]-ws/`
-2. Run the 5 specialist perspectives (Claude Code, Swift, Python, GitHub, DevOps)
-3. Generate a comprehensive report following the scorecard format below
-4. Write the report to `judging/reviews/[judge-name]-ai-review/[participant-name].md`
+Each agent receives the FULL prompt template below and must:
+1. Read the scoring matrix: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/scoring-matrix.md`
+2. Read the report template: `/Users/rossmalpass/Code/terminal-velocity-temp/judging/reviews/_template.md`
+3. Analyze ALL THREE repos (workspace, frontend, backend)
+4. Apply STRICT scoring criteria (see below)
+5. Write report EXACTLY matching the template format
 
 ### Step 4: Generate Summary
 After ALL agents complete, read all generated reports and create a `summary.md` file with:
@@ -51,230 +54,337 @@ After ALL agents complete, read all generated reports and create a `summary.md` 
 ### Step 5: Verify Summary
 Spawn a verification agent to cross-check the summary against individual reviews.
 
-The verification agent should:
-1. Read the summary.md
-2. Read EACH individual review report
-3. Check for inconsistencies:
-   - Do the scores in summary match the individual reports?
-   - Are claims like "only submission with X" actually true across all reports?
-   - Are rankings correct based on actual scores?
-4. If inconsistencies found, update summary.md with corrections
-5. Write a brief `verification-notes.md` listing any corrections made
+---
+
+## STRICT SCORING CRITERIA
+
+### Base Score: 12 points maximum
+### Bonus Points: Up to +2 for excellent Git workflow
+
+---
+
+### 1A. Compliance - Co-authoring (0-2 points)
+
+**STRICT Calculation:**
+- Exclude: Merge commits, initial template commits, submodule pointer updates
+- Include: All other development commits
+
+```
+Effective % = Co-authored / (Total - Merges - Initial)
+```
+
+**Scoring (STRICT):**
+| Score | Criteria |
+|-------|----------|
+| **2** | 95%+ co-authoring AND no evidence of IDE editing |
+| **1.5** | 85-94% co-authoring |
+| **1** | 70-84% co-authoring |
+| **0.5** | 50-69% co-authoring |
+| **0** | <50% OR clear IDE/manual editing evidence |
+
+**Red flags that reduce score:**
+- Commits with formatting-only changes (IDE auto-format)
+- Multiple rapid small commits (manual editing pattern)
+- Commits without meaningful messages
+
+---
+
+### 1B. Sophistication (0-3 points) - STRICT
+
+#### Context Evolution (0 or 1 point)
+| Score | Criteria |
+|-------|----------|
+| **1** | CLAUDE.md evolved with REAL learnings (not just template). Must show: specific gotchas, patterns discovered, or lessons learned during development. |
+| **0** | Template-only content OR no meaningful evolution |
+
+**To get this point, CLAUDE.md must contain SPECIFIC learnings like:**
+- "We discovered that X pattern works better than Y because..."
+- "Gotcha: When doing Z, make sure to..."
+- NOT generic statements like "This project uses SwiftUI"
+
+#### Sub-agents (0 or 1 point)
+| Score | Criteria |
+|-------|----------|
+| **1** | Custom agents in `.claude/agents/` with SPECIFIC roles and model assignments |
+| **0** | No agents OR only copied template agents without customization |
+
+#### Planning Files (0 or 1 point)
+| Score | Criteria |
+|-------|----------|
+| **1** | Actual spec/planning files with REAL content (not empty templates) |
+| **0** | No specs OR empty/template-only spec files |
+
+---
+
+### 1C. Guardrails (0-1 point) - STRICT
+
+Must have AT LEAST TWO of the following configured AND working:
+- `.pre-commit-config.yaml` with actual hooks
+- Linting config (swiftlint.yml, ruff.toml) with custom rules
+- Test files that actually run (not just empty test files)
+- CI/CD workflows in `.github/workflows/`
+
+| Score | Criteria |
+|-------|----------|
+| **1** | 2+ guardrails properly configured |
+| **0.5** | Only 1 guardrail configured |
+| **0** | No guardrails or only empty configs |
+
+---
+
+### 2A. Architecture (0-2 points)
+
+| Score | Criteria |
+|-------|----------|
+| **2** | Clean separation, proper workspace + submodules, logical organization, follows platform conventions |
+| **1.5** | Good structure with minor issues |
+| **1** | Basic structure, some messiness |
+| **0.5** | Poor organization |
+| **0** | Chaotic or missing structure |
+
+---
+
+### 2B. Code Quality (0-2 points)
+
+| Score | Criteria |
+|-------|----------|
+| **2** | Excellent: proper error handling, type safety, follows conventions, no obvious bugs |
+| **1.5** | Good with minor issues |
+| **1** | Functional but rough |
+| **0.5** | Poor practices |
+| **0** | Buggy or broken |
+
+---
+
+### 2C. Functionality (0-1 point)
+
+| Score | Criteria |
+|-------|----------|
+| **1** | App runs end-to-end, frontend connects to backend |
+| **0.5** | Partially working |
+| **0** | Doesn't run or major features broken |
+
+---
+
+### 2D. Documentation (0-1 point)
+
+| Score | Criteria |
+|-------|----------|
+| **1** | Good README with setup instructions, code comments where needed |
+| **0.5** | Minimal documentation |
+| **0** | No documentation or unusable |
+
+---
+
+## BONUS POINTS: Git Workflow (+0 to +2)
+
+Award bonus points for professional Git practices:
+
+| Bonus | Criteria |
+|-------|----------|
+| **+1** | Used feature branches (not all commits to main) |
+| **+0.5** | Created PRs with descriptions (check with `gh pr list`) |
+| **+0.5** | Used gh CLI for git operations (evidence in commit patterns) |
+
+**Maximum bonus: +2 points**
+**Final score: Base (0-12) + Bonus (0-2) = 0-14 possible**
+
+---
 
 ## Agent Prompt Template
 
-For each participant, use this prompt when spawning the agent:
+For each participant, use this EXACT prompt:
 
 ```
-Analyze hackathon submission for participant "[PARTICIPANT]" and write a judging report.
+You are judging hackathon participant "[PARTICIPANT]".
 
-REPO PATH: /Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/[PARTICIPANT]-ws/
+## REQUIRED READING (do this first)
+1. Read scoring matrix: /Users/rossmalpass/Code/terminal-velocity-temp/judging/scoring-matrix.md
+2. Read report template: /Users/rossmalpass/Code/terminal-velocity-temp/judging/reviews/_template.md
 
-SCORING REFERENCE: Read /Users/rossmalpass/Code/terminal-velocity-temp/judging/scoring-matrix.md for detailed criteria.
+## REPO PATH
+/Users/rossmalpass/Code/terminal-velocity-temp/judging/participants/[PARTICIPANT]-ws/
 
-CRITICAL: CHECK ALL THREE REPOS
-Most submissions have a workspace repo with two submodules. You MUST check ALL of them:
+## CHECK ALL THREE REPOS
 - WORKSPACE: [PARTICIPANT]-ws/ (root)
 - FRONTEND: [PARTICIPANT]-ws/apps/macos-client/ OR similar (submodule)
 - BACKEND: [PARTICIPANT]-ws/services/api/ OR similar (submodule)
 
-For EACH repo, check for CLAUDE.md, .claude/commands/, git history, etc.
+## STRICT SCORING - BE CRITICAL
+
+You must be STRICT. Most submissions should NOT get perfect scores.
+
+### Co-authoring Analysis (run in EACH repo):
+```bash
+cd [repo] && echo "=== $(pwd) ===" && \
+echo "Total:" && git log --oneline | wc -l && \
+echo "Co-authored:" && git log --format="%B" | grep -ci "co-authored-by.*claude" && \
+echo "Recent commits:" && git log --oneline -10
+```
+
+### PR/Branch Analysis:
+```bash
+cd [repo] && echo "=== Branches ===" && git branch -a && \
+echo "=== Check for PRs ===" && git log --oneline | grep -i "merge\|pr\|#"
+```
+
+### Deduct points for:
+- CLAUDE.md that's just template content (no real learnings)
+- Agents copied from template without customization
+- Empty spec files or planning docs
+- Single guardrail instead of multiple
+- Direct pushes to main instead of PRs
+
+## OUTPUT
+
+Write report to: /Users/rossmalpass/Code/terminal-velocity-temp/judging/reviews/[JUDGE]-ai-review/[PARTICIPANT].md
+
+**CRITICAL: Follow the template EXACTLY. Copy the structure from _template.md**
+
+Your report MUST include:
+1. Quick Summary table with scores at TOP
+2. Critical Issues section
+3. Points Lost table (be specific about WHY points were lost)
+4. Git Workflow table showing branch/PR usage
+5. Bonus points calculation
+
+Date for report: [TODAY'S DATE]
+Reviewer: [JUDGE]
+```
 
 ---
 
-## FAIR SCORING METHODOLOGY
+## Template Structure (MANDATORY)
 
-### 1A. Compliance - Co-authoring Calculation
+Reports MUST follow this exact structure from `judging/reviews/_template.md`:
 
-**CRITICAL: Exclude these from the denominator when calculating co-authoring percentage:**
-- Merge commits (commits starting with "Merge pull request" or "Merge branch")
-- Submodule pointer update commits (commits that only update submodule references)
-- Initial template/setup commits (the very first "Initial" commit in each repo)
-
-**Include in numerator:** Any commit with "Co-Authored-By: Claude" or "Co-authored-by: Claude" (case-insensitive)
-
-**Calculation:**
-```
-Effective Co-authoring % = (Co-authored commits) / (Total commits - Merge commits - Initial commits)
-```
-
-**Example:**
-- 13 total commits
-- 2 merge commits (exclude)
-- 1 initial setup commit (exclude)
-- 10 remaining development commits
-- 9 of those 10 are co-authored
-- Result: 9/10 = 90% ✓ (NOT 9/13 = 69%)
-
-**Scoring:**
-- 2 points: 85%+ of development commits co-authored
-- 1.5 points: 70-84% of development commits co-authored
-- 1 point: 50-69% of development commits co-authored
-- 0 points: <50% or clear evidence of IDE/manual editing
-
-### 1B. Sophistication - Context Evolution
-
-**Context Evolution (1 point)** - Award if EITHER:
-1. CLAUDE.md was modified after initial creation (multiple commits touching it), OR
-2. CLAUDE.md contains substantial project-specific content beyond the template (learnings, patterns, gotchas documented)
-
-Check the CONTENT, not just the commit count. A well-written initial CLAUDE.md with real learnings counts.
-
-**Sub-agents (1 point)** - Award if:
-- `.claude/agents/` directory exists with custom agent configurations, OR
-- Agents are defined in CLAUDE.md with clear roles and model assignments
-
-**Planning Files (1 point)** - Award if ANY of:
-- Spec files exist in `specs/` or similar folder
-- Planning documentation in CLAUDE.md (feature specs, architecture decisions)
-- PRs with detailed descriptions showing plan-first approach
-- Feature planning markdown files anywhere in the repo
-
-### 1C. Guardrails
-
-Award 1 point if ANY guardrails are configured:
-- `.pre-commit-config.yaml` exists and has hooks defined
-- Linting configs (swiftlint.yml, ruff.toml, pyproject.toml with ruff/black)
-- Test files exist AND test command is documented
-- CI/CD workflows in `.github/workflows/`
-
----
-
-ANALYSIS TASKS:
-1. **Claude Code Analysis** (1A Compliance + 1B Sophistication - 5 pts)
-
-   FOR EACH OF THE 3 REPOS (workspace, frontend, backend):
-   - Check if CLAUDE.md exists and read it - assess if content is substantive or just template
-   - Check git log for CLAUDE.md changes: `git log --oneline -- CLAUDE.md`
-   - Look for .claude/commands/ and .claude/agents/ custom configurations
-   - Find planning/spec files (*.md files with plans, specs, architecture)
-
-   **For co-authoring, use this EXACT command to get accurate counts:**
-   ```bash
-   echo "=== COMMIT ANALYSIS ===" && \
-   echo "Total commits:" && git log --oneline | wc -l && \
-   echo "Merge commits (EXCLUDE):" && git log --oneline --grep="^Merge" | wc -l && \
-   echo "Co-authored commits:" && git log --format="%s%n%b" | grep -ci "co-authored-by.*claude" && \
-   echo "" && \
-   echo "=== NON-CO-AUTHORED DEVELOPMENT COMMITS ===" && \
-   git log --format="COMMIT: %s" | grep -v "^Merge" | head -20
-   ```
-
-   Then manually verify: Are the non-co-authored commits just merges/initial setup, or actual development?
-
-2. **Swift/macOS Analysis** (2A + 2B partial)
-   - Analyze apps/macos-client or similar structure
-   - Evaluate SwiftUI patterns, state management
-   - Check code quality
-
-3. **Python/API Analysis** (2A + 2B partial)
-   - Analyze services/api structure
-   - Check FastAPI patterns, type hints
-   - Evaluate code quality
-
-4. **GitHub Analysis** (1A partial + 2D)
-   - Run: gh pr list --repo [appropriate-repo] if applicable
-   - Check commit messages and patterns
-   - Evaluate README and documentation
-
-5. **DevOps/Guardrails Analysis** (1C + 2C)
-   - Check for .pre-commit-config.yaml, linting configs
-   - Verify Docker setup
-   - Assess if app appears runnable
-
-OUTPUT: Write a comprehensive report to:
-/Users/rossmalpass/Code/terminal-velocity-temp/judging/reviews/[JUDGE]-ai-review/[PARTICIPANT].md
-
-Use this format:
-
+```markdown
 # [Participant Name] - Hackathon Judging Report
 
-## Summary Scores
+**Reviewer:** [Name] | **Date:** [YYYY-MM-DD] | **Score:** [X/12] (+Y bonus)
 
-| Category | Score | Max | Notes |
-|----------|-------|-----|-------|
-| 1A. Compliance | X | 2 | [brief note] |
-| 1B. Sophistication | X | 3 | [brief note] |
-| 1C. Guardrails | X | 1 | [brief note] |
-| **Rules Subtotal** | **X** | **6** | |
-| 2A. Architecture | X | 2 | [brief note] |
-| 2B. Code Quality | X | 2 | [brief note] |
-| 2C. Functionality | X | 1 | [brief note] |
-| 2D. Documentation | X | 1 | [brief note] |
-| **Quality Subtotal** | **X** | **6** | |
-| **TOTAL (Leads)** | **X** | **12** | |
+---
+
+## Quick Summary
+
+| Category | Score | Notes |
+|----------|-------|-------|
+| 1A. Compliance | X/2 | [one-liner] |
+| 1B. Sophistication | X/3 | [one-liner] |
+| 1C. Guardrails | X/1 | [one-liner] |
+| **Rules** | **X/6** | |
+| 2A. Architecture | X/2 | [one-liner] |
+| 2B. Code Quality | X/2 | [one-liner] |
+| 2C. Functionality | X/1 | [one-liner] |
+| 2D. Documentation | X/1 | [one-liner] |
+| **Quality** | **X/6** | |
+| **BASE TOTAL** | **X/12** | |
+| **Bonus** | **+X** | [Git workflow] |
+| **FINAL** | **X/14** | |
+
+---
+
+## Critical Issues (if any)
+
+> [Red flags - Write "None" if no issues]
+
+---
+
+## Points Lost
+
+| Category | Lost | Reason |
+|----------|------|--------|
+| [1A] | [-X] | [specific reason] |
+
+**Total Lost: X points**
+
+---
 
 ## Detailed Analysis
 
 ### 1A. Compliance (X/2)
 
-**Co-authoring Analysis (per repo):**
+**Co-authoring by Repo:**
 
-| Repo | Total | Merges | Initial | Dev Commits | Co-authored | Effective % |
-|------|-------|--------|---------|-------------|-------------|-------------|
-| Workspace | X | X | X | X | X | X% |
-| Frontend | X | X | X | X | X | X% |
-| Backend | X | X | X | X | X | X% |
-| **Combined** | X | X | X | X | X | **X%** |
+| Repo | Dev Commits | Co-authored | Rate |
+|------|-------------|-------------|------|
+| Workspace | X | X | X% |
+| Frontend | X | X | X% |
+| Backend | X | X | X% |
+| **Total** | **X** | **X** | **X%** |
 
-[Detailed reasoning - note any non-co-authored commits that ARE actual development work]
+[Explanation of any issues]
+
+**Git Workflow (Bonus):**
+
+| Practice | Status | Bonus |
+|----------|--------|-------|
+| Feature branches | ✅/❌ | +1/+0 |
+| PRs with descriptions | ✅/❌ | +0.5/+0 |
+| gh CLI usage | ✅/❌ | +0.5/+0 |
+| **Bonus Total** | | **+X** |
 
 ### 1B. Sophistication (X/3)
-- Context Evolution & Distribution: X/1
-- Sub-agent Usage: X/1
-- Planning Files: X/1
 
-**Repos Checked:**
-- Workspace: [path] - CLAUDE.md substantive content? [yes/no] Evolution? [yes/no, # commits]
-- Frontend: [path] - CLAUDE.md substantive content? [yes/no] Evolution? [yes/no, # commits]
-- Backend: [path] - CLAUDE.md substantive content? [yes/no] Evolution? [yes/no, # commits]
-
-[Detailed reasoning with specific evidence from each repo]
+- **Context Evolution (X/1):** [Specific evidence or why 0]
+- **Sub-agents (X/1):** [Specific evidence or why 0]
+- **Planning Files (X/1):** [Specific evidence or why 0]
 
 ### 1C. Guardrails (X/1)
-[Detailed reasoning]
+
+- [x] / [ ] Pre-commit hooks - [details]
+- [x] / [ ] Linting config - [details]
+- [x] / [ ] Tests - [details]
+- [x] / [ ] CI/CD - [details]
+
+**Guardrails configured: X/4 (need 2+ for full point)**
 
 ### 2A. Architecture (X/2)
-[Combined Swift and Python analysis]
+[Analysis]
 
 ### 2B. Code Quality (X/2)
-[Combined Swift and Python analysis]
+**Swift:** [analysis]
+**Python:** [analysis]
 
 ### 2C. Functionality (X/1)
-[Assessment]
+[Analysis]
 
 ### 2D. Documentation (X/1)
-[Assessment]
+[Analysis]
 
-## Where Points Were Lost
-
-Summarize exactly where and why this participant lost marks. Be specific about what was missing or insufficient.
-
-| Category | Points Lost | Reason |
-|----------|-------------|--------|
-| [e.g. 1A] | [e.g. -0.5] | [Specific reason with data] |
-| ... | ... | ... |
-
-**Total Points Lost: X/12**
+---
 
 ## Highlights
-[Top 3-5 notable positives]
+1. **[Topic]** - [Description]
+2. **[Topic]** - [Description]
+3. **[Topic]** - [Description]
 
 ## Concerns
-[Top 3-5 issues or areas lacking]
+1. **[Topic]** - [Description]
+2. **[Topic]** - [Description]
+3. **[Topic]** - [Description]
 
-## Creativity Notes (for human judges)
-[Observations about creativity, innovation, or unique approaches - NOT scored]
+---
+
+## Creativity Notes
+[For human judges]
+
+---
+
+*Report generated using template v1.0*
 ```
 
-## Participants List (for reference)
+---
 
-These are the expected participants in `judging/participants/`:
+## Participants List
+
+Expected in `judging/participants/`:
 - agentarium-ws
 - antisocial-ws (or antisocial-workspace)
 - anttuii-ws
 - crucible-collective-ws
 - csaba-ombori-hack-ws
+- friction-log-ws
 - hackathon-app-ws
 - hackathon-lukas-ws
 - kafeel-ws
